@@ -3,7 +3,7 @@
     overflow: hidden;
     background-size: cover;
     font-family: 'Pixelify Sans', sans-serif;
-    font-weight: 700px;
+    font-weight: 600px;
     color: white;
     background-color: green;
 }
@@ -27,18 +27,19 @@
     align-items: center;
     flex-direction: column;
     height: 60vh;
+    width: max-content;
 }
 
-button{
+.menuButtons{
     height: 50px;
-    margin: 10px;
+    margin: 7px;
     width: 220px;
     border-color: #2F5B02;
     border-bottom: 7px solid #2F5B02;
     border-right: 7px solid black;
 }
 
-button:active{
+.menuButtons:active{
     border: 2px solid #2F5B02;
 }
 
@@ -48,7 +49,6 @@ button:active{
     align-content: center;
     width: 260px;
     font-size: 20px;
-    color:red
 }
 
 #menu .menuButtons a {
@@ -63,3 +63,50 @@ button:active{
     font-size: 30px;
 }
 
+#gamePauseButton{
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    background: green;
+    font-size: x-large;
+    border-radius: 40px;
+    overflow: hidden;
+    border: 2px solid black;
+    margin-top: 5px;
+}
+
+#pauseMenu{
+    border: 3px solid black;
+}
+
+#pauseMenuCloseButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    border: 2px solid black;
+    font-size: x-large;
+    overflow: hidden;
+}
+
+.modal, .modal-fade, .modal-dialog{
+    background-color: transparent;
+}
+
+#confToRestartDiv, #confToExitDiv {
+    text-align: center;
+    width: 260px;
+}
+
+
+
+.confButtons{
+    border-color: #2F5B02;
+    border-bottom: 7px solid #2F5B02;
+    border-right: 7px solid black;
+    margin: 5px;
+}
+
+#rulesAndCommandsDiv.modal, #rulesAndCommandsDiv.modal-fade, #rulesAndCommandsDiv.modal-dialog, 
+#pauseModal.modal, #pauseModal.modal-fade, #pauseModal.modal-dialog{
+    background-color: rgba(0, 0, 0, 0.5);
+}
