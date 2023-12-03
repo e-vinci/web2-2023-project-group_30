@@ -39,7 +39,7 @@
     border-right: 7px solid black;
 }
 
-.menuButtons:active{
+.menuButtons:active, .confButtons:active{
     border: 2px solid #2F5B02;
 }
 

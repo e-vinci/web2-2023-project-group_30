@@ -1,16 +1,10 @@
 import Phaser from 'phaser';
 import ScoreLabel from './ScoreLabel';
-import BombSpawner from './BombSpawner';
-import skyAsset from '../../assets/sky.png';
-import platformAsset from '../../assets/platform.png';
-import starAsset from '../../assets/star.png';
-import bombAsset from '../../assets/bomb.png';
-import dudeAsset from '../../assets/dude.png';
+import skyAsset from '../../assets/sky_test.png';
+import asteroidAsset from '../../assets/asteroid.png';
+import dudeAsset from '../../assets/Ship1.png';
 
-const GROUND_KEY = 'ground';
 const DUDE_KEY = 'dude';
-const STAR_KEY = 'star';
-const BOMB_KEY = 'bomb';
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -18,153 +12,116 @@ class GameScene extends Phaser.Scene {
     this.player = undefined;
     this.cursors = undefined;
     this.scoreLabel = undefined;
-    this.stars = undefined;
-    this.bombSpawner = undefined;
-    this.gameOver = false;
+    this.timerEvent = undefined;
+    this.obstacles = undefined;
+    this.obstacleDelay = 100; // Initial delay
+    this.obstacleDelayDecreaseRate = 10; // Rate at which delay decreases
+    this.minObstacleDelay = 10; // Minimum delay value
+    this.gameOverFlag  = false;
   }
 
   preload() {
     this.load.image('sky', skyAsset);
-    this.load.image(GROUND_KEY, platformAsset);
-    this.load.image(STAR_KEY, starAsset);
-    this.load.image(BOMB_KEY, bombAsset);
-
-    this.load.spritesheet(DUDE_KEY, dudeAsset, {
-      frameWidth: 32,
-      frameHeight: 48,
-    });
+    this.load.image('obstacle', asteroidAsset);
+    this.load.image(DUDE_KEY, dudeAsset);
   }
 
   create() {
+    // background
     this.add.image(400, 300, 'sky');
-    const platforms = this.createPlatforms();
-    this.player = this.createPlayer();
-    this.stars = this.createStars();
+
+    // player
+    this.player = this.physics.add.sprite(100, 450, DUDE_KEY);
+    this.player.setCollideWorldBounds(true);
+
+    // obstacles
+    this.obstacles = this.physics.add.group({
+      key: 'obstacle',
+      repeat: 20,
+      setXY: {
+        x: 800, y: 0, stepX: 250
+      }
+    })
+
+    // create obstacles at random heights
+    this.obstacles.children.iterate(obstacle => {
+      if (obstacle) {
+          const randomY = Phaser.Math.Between(15, 705);
+          obstacle.setPosition(obstacle.x, randomY);
+      }
+    });
+
+    this.physics.add.collider(this.player, this.obstacles, this.playerObstacleCollision, null, this);
+
     this.scoreLabel = this.createScoreLabel(16, 16, 0);
-    this.bombSpawner = new BombSpawner(this, BOMB_KEY);
-    const bombsGroup = this.bombSpawner.group;
-    this.physics.add.collider(this.stars, platforms);
-    this.physics.add.collider(this.player, platforms);
-    this.physics.add.collider(bombsGroup, platforms);
-    this.physics.add.collider(this.player, bombsGroup, this.hitBomb, null, this);
-    this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
+
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    /* The Collider takes two objects and tests for collision and performs separation against them.
-    Note that we could call a callback in case of collision... */
+    this.timerEvent = this.time.addEvent({
+      delay: this.obstacleDelay,
+      callback: this.moveObstacles,
+      callbackScope: this,
+      loop: true
+    })
+  }
+
+  playerObstacleCollision() {
+    this.gameOver();
+  }
+  
+  gameOver(){
+    this.scoreLabel.setText(`GAME OVER :( \nYour Score = ${this.scoreLabel.score}`);
+    this.physics.pause();
+
+    this.player.setTint(0xff0000);
+    this.gameOverFlag  = true;
   }
 
   update() {
-    if (this.gameOver) {
+    if (this.gameOverFlag) {
       return;
     }
 
-    if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-160);
-      this.player.anims.play('left', true);
-    } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(160);
-      this.player.anims.play('right', true);
-    } else {
-      this.player.setVelocityX(0);
-      this.player.anims.play('turn');
-    }
-
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
+    if (this.cursors.up.isDown) {
       this.player.setVelocityY(-330);
+    } else if (this.cursors.down.isDown) {
+      this.player.setVelocityY(330);
+    } else {
+      this.player.setVelocityY(0);
     }
   }
 
-  createPlatforms() {
-    const platforms = this.physics.add.staticGroup();
+  moveObstacles(){
+    this.obstacles.setVelocityX(-200);
 
-    platforms
-      .create(400, 568, GROUND_KEY)
-      .setScale(2)
-      .refreshBody();
+    this.obstacles.children.iterate(obstacle =>{
+      if(obstacle && obstacle.getBounds().right<0){
+        const randomY = Phaser.Math.Between(100, 500);
+        obstacle.setPosition(800, randomY);
 
-    platforms.create(600, 400, GROUND_KEY);
-    platforms.create(50, 250, GROUND_KEY);
-    platforms.create(750, 220, GROUND_KEY);
-    return platforms;
-  }
+        this.scoreLabel.add(10)
+      }
+    })
 
-  createPlayer() {
-    const player = this.physics.add.sprite(100, 450, DUDE_KEY);
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-    /* The 'left' animation uses frames 0, 1, 2 and 3 and runs at 10 frames per second.
-    The 'repeat -1' value tells the animation to loop.
-    */
-    this.anims.create({
-      key: 'left',
-      frames: this.anims.generateFrameNumbers(DUDE_KEY, { start: 0, end: 3 }),
-      frameRate: 10,
-      repeat: -1,
-    });
+    // decrease delay to make obstacles appear faster over time
+    this.obstacleDelay -= this.obstacleDelayDecreaseRate;
 
-    this.anims.create({
-      key: 'turn',
-      frames: [{ key: DUDE_KEY, frame: 4 }],
-      frameRate: 20,
-    });
+    // Ensure delay doesn't go below a minimum value
+    this.obstacleDelay = Math.max(this.obstacleDelay, this.minObstacleDelay);
 
-    this.anims.create({
-      key: 'right',
-      frames: this.anims.generateFrameNumbers(DUDE_KEY, { start: 5, end: 8 }),
-      frameRate: 10,
-      repeat: -1,
-    });
+    // Update timerEvent.delay
+    this.timerEvent.delay = this.obstacleDelay;
 
-    return player;
-  }
-
-  createStars() {
-    const stars = this.physics.add.group({
-      key: STAR_KEY,
-      repeat: 11,
-      setXY: { x: 12, y: 0, stepX: 70 },
-    });
-
-    stars.children.iterate((child) => {
-      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-    });
-
-    return stars;
-  }
-
-  collectStar(player, star) {
-    star.disableBody(true, true);
-    this.scoreLabel.add(10);
-    if (this.stars.countActive(true) === 0) {
-      //  A new batch of stars to collect
-      this.stars.children.iterate((child) => {
-        child.enableBody(true, child.x, 0, true, true);
-      });
-    }
-
-    this.bombSpawner.spawn(player.x);
   }
 
   createScoreLabel(x, y, score) {
-    const style = { fontSize: '32px', fill: '#000' };
+    const style = { fontSize: '32px', fill: '#FFF' };
     const label = new ScoreLabel(this, x, y, score, style);
-    console.log('score:', label);
     this.add.existing(label);
 
     return label;
   }
 
-  hitBomb(player) {
-    this.scoreLabel.setText(`GAME OVER : ( \nYour Score = ${this.scoreLabel.score}`);
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-
-    player.anims.play('turn');
-
-    this.gameOver = true;
-  }
 }
 
 export default GameScene;

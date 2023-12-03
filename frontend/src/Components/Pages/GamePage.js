@@ -56,7 +56,7 @@ const GamePage = () => {
                 </div>
               </div>
 
-              <button class="row menuButtons">Commandes</button>
+              <button class="row menuButtons" data-uri="/commands">Commandes</button>
               <button class="row menuButtons" id="exitButton">Quitter le jeu</button>
 
               <div id="confToExitDiv" style="display: none;">
@@ -91,7 +91,7 @@ const GamePage = () => {
     physics: {
       default: 'arcade',
       arcade: {
-        gravity: { y: 300 },
+        gravity: { y: 0 },
         debug: false,
       },
     },
@@ -170,11 +170,17 @@ const GamePage = () => {
     backdrop: false
   });
 
+  
   // eslint-disable-next-line no-unused-vars
   const rulesAndCommandsDiv = new Modal(document.getElementById('rulesAndCommandsDiv'), {
     show: true, 
     keyboard: false
   });
+  
+  document.addEventListener('keyup', (e) => {
+    // eslint-disable-next-line no-underscore-dangle
+    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false) pauseModal.toggle();
+  })
 
   rulesAndCommandsDiv.show();
   
