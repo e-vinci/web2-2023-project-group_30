@@ -1,5 +1,8 @@
 ######### NORMAL OPERATION  ###########
 
+######a modifier pour les requetes du classement et profil #######
+
+
 ### Read all pizzas
 GET http://localhost:3000/pizzas
 

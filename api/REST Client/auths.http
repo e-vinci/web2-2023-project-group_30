@@ -25,7 +25,8 @@ Content-Type: application/json
 
 {
     "username":"manager",
-    "password":"manager"
+    "password":"manager",
+    "age":10
 }
 
 ### Login the manager user
