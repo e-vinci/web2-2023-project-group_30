@@ -25,6 +25,8 @@ class GameScene extends Phaser.Scene {
     this.obstacleDelay = 10; // Initial delay
     this.obstacleDelayDecreaseRate = 10; // Rate at which delay decreases
     this.minObstacleDelay = 10; // Minimum delay value
+    this.starDelay = 10;
+    this.starDelayDecreaseRate = 10;
     this.gameOverFlag  = false;
     this.stars = undefined;
     this.score = 0; // Initialize the score
@@ -50,16 +52,26 @@ class GameScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(80, 400, DUDE_KEY); // Adjust player starting position
     this.player.setCollideWorldBounds(true);
     // Setting a smaller hitbox for the player sprite
-    this.player.setSize(50, 12); // Width of 40 pixels, height of 20 pixels
+    this.player.setSize(50, 12); 
 
     // obstacles
     this.obstacles = this.physics.add.group();
+    // stars
+    this.stars = this.physics.add.group();
+
+    // eslint-disable-next-line no-plusplus
+    this.createStars();
+     // Handle collision between player and stars
+     this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
+
+     // Create a label to display the collected stars count
+     this.starLabel = this.add.text(16, 70, 'Stars: 0', { fontSize: '40px', fill: '#FFFF00' })
     
     // Create obstacles outside the game scene
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < 30; i++) { // Increase the number of obstacles
       const obstacle = this.obstacles.create(
-        Phaser.Math.Between(400, 5000), // Place obstacles outside the game scene
+        Phaser.Math.Between(400, 4000), // Place obstacles outside the game scene
         Phaser.Math.Between(0, 900),  // Place obstacles anywhere on the y-axis
         'obstacle'
       );
@@ -82,6 +94,12 @@ class GameScene extends Phaser.Scene {
     callbackScope: this,
     loop: true
     })
+    this.timerEvent = this.time.addEvent({
+      delay: this.starDelay,
+      callback: this.moveStars,
+      callbackScope: this,
+      loop: true
+     })
     this.bullets = this.physics.add.group({
       key: BULLET_KEY,
       repeat: 9,
@@ -100,32 +118,12 @@ class GameScene extends Phaser.Scene {
 
     this.physics.add.collider(this.bullets, this.obstacles, this.bulletObstacleCollision, null, this);
     this.physics.world.setBoundsCollision(true, true, false, false);
-
-    // stars
-    this.stars = this.physics.add.group({
-      key: STAR_KEY,
-      repeat: 1,
-      setXY: () => {
-        let randomY = Phaser.Math.Between(15, 705);
-        while (this.obstacleAtPosition(800, randomY)) {
-          randomY = Phaser.Math.Between(15, 705);
-        }
-        return { x: 800, y: randomY };
-      },
-      setScale: { x: 1, y: 1 },
-    });
-  
-    this.stars.children.iterate(star => {
-      const randomY = Phaser.Math.Between(15, 705);
-      star.setPosition(star.x, randomY);
-    });
-  
-    this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
   }
 
   playerObstacleCollision() {
     this.gameOver();
   }
+
   
   gameOver(){
     this.scoreLabel.setText(`GAME OVER  \nYour Score = ${this.scoreLabel.score}`);
@@ -194,15 +192,43 @@ class GameScene extends Phaser.Scene {
         );
       }
     });
+  }
 
-    this.stars.setVelocityX(-300);
+  createStars() {
+    // Create stars continuously without a loop
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < 10; i++) {
+      const star = this.stars.create(
+        Phaser.Math.Between(400, 4000),
+        Phaser.Math.Between(0, 900),
+        STAR_KEY
+      );
+      star.setCollideWorldBounds(false);
+    }
+  }
 
+  moveStars() {
+    const starVelocity = -300; // Initial star velocity
+    const scoreMultiplier = 0.3; // Velocity increase per score unit
+    const currentScore = this.scoreLabel.score; // Get the current score
+    const increasedVelocity = starVelocity - (currentScore * scoreMultiplier);
+    this.stars.setVelocityX(increasedVelocity);
     this.stars.children.iterate(star => {
-      if (star && star.getBounds().right < 0) {
-        const randomY = Phaser.Math.Between(1200, 1400);
-        star.setPosition(800, randomY);
+      if (star && star.getBounds().right < -100) { // Check if star is completely outside the game scene
+        star.setPosition(
+          Phaser.Math.Between(1200, 1400), // Reposition the star outside the game scene
+          Phaser.Math.Between(0, 800)     // Place star anywhere on the y-axis
+        );
       }
-    }); 
+    });
+  }
+
+  collectStar(player, star) {
+    star.disableBody(true, true); // Hide the star when collected
+    // eslint-disable-next-line no-plusplus
+    this.starCount++; // Increment the star count
+    this.starLabel.setText(`Stars: ${this.starCount}`);
+    // You can add any other logic related to collecting stars here
   }
 
   tryShootBullet() {
@@ -259,28 +285,6 @@ class GameScene extends Phaser.Scene {
     this.add.existing(label);
 
     return label;
-  }
-
-  collectStar(player, star) {
-    // Disable the star's body on collision
-    star.disableBody(true, true);
-  
-    // Update the star count
-    this.starCount += 10;
-    this.starLabel.setText(`Stars: ${this.starCount}`);
-  
-    // Respawn a new star beyond the right edge of the screen
-    const newStar = this.stars.create(Phaser.Math.Between(800, 1600), Phaser.Math.Between(15, 705), STAR_KEY);
-    newStar.setVelocityX(-200);
-    newStar.setScale(1);
-    newStar.setDepth(1);
-  
-    // Adjust the new star's position to avoid overlapping with obstacles
-    let randomY = Phaser.Math.Between(15, 705);
-    while (this.obstacleAtPosition(newStar.x, randomY)) {
-      randomY = Phaser.Math.Between(15, 705);
-    }
-    newStar.setPosition(newStar.x, randomY);
   }
 }
 export default GameScene;
