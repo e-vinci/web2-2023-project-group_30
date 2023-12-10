@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import ScoreLabel from './ScoreLabel';
 import skyAsset from '../../assets/sky_tes.jpg';
 import asteroidAsset from '../../assets/asteroid.png';
-import dudeAsset from '../../assets/Ship1.png';
+import dudeAsset from '../../assets/Ship3.png';
 import gameAudio from '../../assets/audio/gamemusic-6082.mp3';
 import gameOverAudio from '../../assets/audio/game-over-arcade-6435.mp3';
 import bulletAsset from '../../assets/bullets.png';
@@ -50,7 +50,7 @@ class GameScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(80, 400, DUDE_KEY); // Adjust player starting position
     this.player.setCollideWorldBounds(true);
     // Setting a smaller hitbox for the player sprite
-    this.player.setSize(60, 20); // Width of 40 pixels, height of 20 pixels
+    this.player.setSize(50, 12); // Width of 40 pixels, height of 20 pixels
 
     // obstacles
     this.obstacles = this.physics.add.group();
