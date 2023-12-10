@@ -19,6 +19,9 @@ GET {{baseUrl}}/pizzas/?order=-title
 ### Read pizza identified by 2
 GET {{baseUrl}}/pizzas/2
 
+###
+GET {{baseUrl}}/users
+
 ### Create a pizza by using the admin account
 #### First login as the admin
 ##### Define a request variable nammed admin

@@ -1,7 +1,7 @@
-const CommandsPage = () => {
+const RulesAndCommands = () => {
    const  htmlCommands = `
    <div class="modal-body">
-      <h1>Commandes du Jeu</h1>
+      <h2>Commandes du Jeu</h2>
       <p>
           Dans ce jeu, vous contrôlez votre personnage à l'aide des touches directionnelles.
       </p>
@@ -28,4 +28,4 @@ const CommandsPage = () => {
   return htmlCommands;
   };
 
-  export default CommandsPage;
+  export default RulesAndCommands;

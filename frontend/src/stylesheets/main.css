@@ -5,15 +5,18 @@
     font-family: 'Pixelify Sans', sans-serif;
     font-weight: 600px;
     color: white;
-    background-color: green;
+    background-color: black;/* Replace 'path_to_your_image.jpg' with your image path */
+    background-size: cover; /* Adjust as needed */
+    background-repeat: no-repeat; /* Adjust as needed */
 }
 .navbar-brand, #navbarWrapper{
     color: white;
+
 }
 
 .navbar-brand{
     font-size: 50px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.714);
 }
 
 #title{
@@ -22,6 +25,8 @@
 }
 
 #menu{
+    background-color: rgba(92, 92, 92, 0);
+    border-radius: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,6 +42,7 @@
     border-color: #2F5B02;
     border-bottom: 7px solid #2F5B02;
     border-right: 7px solid black;
+    background-color: green;
 }
 
 .menuButtons:active, .confButtons:active{
@@ -49,6 +55,7 @@
     align-content: center;
     width: 260px;
     font-size: 20px;
+    background-color: green;
 }
 
 #menu .menuButtons a {
@@ -56,6 +63,8 @@
     text-decoration-line: none;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition-duration: 0.5s;
+    background-color: green;
   }
 
 .navbar-toggler-icon{
@@ -104,6 +113,7 @@
     border-bottom: 7px solid #2F5B02;
     border-right: 7px solid black;
     margin: 5px;
+    background-color: green;
 }
 
 #rulesAndCommandsDiv.modal, #rulesAndCommandsDiv.modal-fade, #rulesAndCommandsDiv.modal-dialog, 
@@ -111,3 +121,38 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+#commandsDiv{
+    background-color: #2F5B02;
+}
+
+#showCommands{
+    color: black;
+}
+
+#commandsText{
+    display: none;
+}
+
+::backdrop{
+    opacity: 0.75;
+}
+.mask-custom {
+    background-color: green;
+    border-radius: 2em;
+    backdrop-filter: blur(25px);
+    border: 2px solid rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+.game-page-container {
+    /* Other styles */
+  
+    /* Background image properties */
+     /* Replace 'path_to_your_image.jpg' with your image path */
+    background-size: cover; /* Adjust as needed */
+    background-repeat: no-repeat; /* Adjust as needed */
+  }
+ .table table-hober{
+    background-color:green;
+ }  
+ 

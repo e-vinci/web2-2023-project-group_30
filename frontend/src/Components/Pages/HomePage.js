@@ -2,6 +2,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import anime from 'animejs';
 import {clearPage} from '../../utils/render';
+import { isLoggedIn } from '../../utils/auth';
 
 const HomePage = () => {
   clearPage();
@@ -12,8 +13,7 @@ const HomePage = () => {
     <span id="title" class="">Zero-G Odissey</span><br>
     <button class="row menuButtons"><a href="#" data-uri="/game">Lancer le jeu</a></button>
     <button class="row menuButtons"><a href="#" data-uri="/leaderboard">Classement</a></button>
-    <button class="row menuButtons"><a href="#" data-uri="/login">Se connecter</a></button>
-    <button class="row menuButtons"><a href="#" data-uri="/register">Inscription</a></button>
+    ${isLoggedIn() ? '<button class="row menuButtons"><a href="#" data-uri="/shop">Boutique</a></button>' : ''}
   </div>`
  
   main.innerHTML = html;
@@ -52,5 +52,12 @@ const HomePage = () => {
 
   animatedTitle.play();
 };
+
+const reloadHomePage = () => {
+  HomePage();
+};
+
+export { reloadHomePage };
+
 
 export default HomePage;

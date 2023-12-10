@@ -1,3 +1,5 @@
+import Navigate from "../Router/Navigate";
+
 const RegisterPage = () => {
   const main = document.querySelector('main');
 
@@ -13,8 +15,8 @@ const RegisterPage = () => {
                           <div class="invalid-feedback">Ce champ est requis.</div>
                       </div>
                       <div class="mb-3">
-                          <label for="age" class="form-label">Age:</label>
-                          <input type="text" class="form-control" id="age" name="age" required>
+                          <label for="birthdate" class="form-label">Date de naissance:</label>
+                          <input type="date" class="form-control" id="birthdate" name="birthdate" required>
                           <div class="invalid-feedback">Ce champ est requis.</div>
                       </div>
                       <div class="mb-3">
@@ -33,22 +35,20 @@ const RegisterPage = () => {
           </div>
       </div>
   `;
-};
-
-
-
+  
 const registerForm = document.getElementById('registerForm');
 
-if (registerForm) {
+
     registerForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const username = document.getElementById('username').value;
-        const age = document.getElementById('age').value;
+        const birthdate = document.getElementById('birthdate').value;
         const password = document.getElementById('password').value;
         const confirm = document.getElementById('confirm').value;
 
         if (password !== confirm) {
+            // eslint-disable-next-line no-alert
             alert('Les mots de passe ne correspondent pas');
             return;
         }
@@ -60,18 +60,19 @@ if (registerForm) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password, age}),  
+                body: JSON.stringify({ username, password, birthdate}),  
             });
 
             if (response.ok) {
-                
-                window.location.href = '/';
+                Navigate('/')
             } else {
                 
                 console.error('Erreur d\'inscription');
+                // eslint-disable-next-line no-alert
                 alert('Erreur lors de l\'inscription');
             }
         } catch (error) {
+            // eslint-disable-next-line no-console
             console.error('Erreur:', error);
         }
     });
