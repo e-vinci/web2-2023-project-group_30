@@ -30,10 +30,10 @@ const LoginPage = () => {
   const loginForm = document.getElementById('loginForm');
   loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-
+  
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-
+  
     try {
       const response = await fetch('/api/auths/login', {
         method: 'POST',
@@ -42,11 +42,12 @@ const LoginPage = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       if (response.ok) {
-        setUserSessionData({ username });
+        const { token } = await response.json();
+        setUserSessionData({ username, token });
         await Navigate('/');
-        reloadNavbar(); // Ajout de la fonction pour recharger dynamiquement la barre de navigation
+        reloadNavbar();
       } else {
         alert("Nom d'utilisateur ou mot de passe incorrect");
       }
@@ -54,6 +55,7 @@ const LoginPage = () => {
       console.error('Erreur:', error);
     }
   });
+  
 
   // Fonction pour recharger dynamiquement la barre de navigation
   function reloadNavbar() {

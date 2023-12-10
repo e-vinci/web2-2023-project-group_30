@@ -53,6 +53,11 @@ const HomePage = () => {
   animatedTitle.play();
 };
 
+const reloadHomePage = () => {
+  HomePage();
+};
+
+export { reloadHomePage };
 
 
 export default HomePage;
