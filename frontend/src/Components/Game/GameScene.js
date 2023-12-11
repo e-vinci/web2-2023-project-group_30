@@ -135,7 +135,7 @@ class GameScene extends Phaser.Scene {
   }
 
   
-  gameOver(){
+  async gameOver(){
     this.scoreLabel.setText(`GAME OVER  \nYour Score = ${this.scoreLabel.score}`);
     this.physics.pause();
     this.music.stop();
