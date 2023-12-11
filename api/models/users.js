@@ -15,6 +15,8 @@ const defaultUsers = [
     id: 1,
     username: 'admin',
     password: bcrypt.hashSync('admin', saltRounds),
+    birthdate: '1990-01-01',
+    score: 0,
   },
 ];
 
@@ -77,6 +79,7 @@ async function createOneUser(username, password, birthdate) {
     username,
     password: hashedPassword,
     birthdate,
+    score: 0,
   };
 
   users.push(createdUser);
@@ -95,8 +98,20 @@ function getNextId() {
   return nextId;
 }
 
+async function updateUserData(updatedUser) {
+  const users = parse(jsonDbPath, defaultUsers);
+  const userIndex = users.findIndex((user) => user.id === updatedUser.id);
+  if (userIndex !== -1) {
+    users[userIndex] = updatedUser;
+    serialize(jsonDbPath, users);
+  }
+}
+
 module.exports = {
   login,
   register,
   readOneUserFromUsername,
+  updateUserData,
+  jsonDbPath,
+  defaultUsers,
 };

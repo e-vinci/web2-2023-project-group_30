@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:3000
+
+### Tyry to update a score
+POST {{baseUrl}}/users/update-score
+Content-Type: application/json
+
+{
+    "newScore":10,
+    "username":"Max"
+}
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlhdCI6MTcwMjI4OTkzOSwiZXhwIjoxNzg4Njg5OTM5fQ.1NObUWo01HtBWlGNCLBEpod-U2LAATZ51ByAtO4H8o8
+### Try to update a score
+POST {{baseUrl}}/users/update-score
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlhdCI6MTcwMjI4OTkzOSwiZXhwIjoxNzg4Njg5OTM5fQ.1NObUWo01HtBWlGNCLBEpod-U2LAATZ51ByAtO4H8o8
+Content-Type: application/json
+
+{
+    "newScore": 10
+}
