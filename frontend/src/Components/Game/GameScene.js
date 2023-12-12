@@ -57,6 +57,7 @@ class GameScene extends Phaser.Scene {
     
 
     // obstacles
+
     this.obstacles = this.physics.add.group({
       key: 'obstacle',
       repeat: 20,
@@ -74,6 +75,7 @@ class GameScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, this.obstacles, this.playerObstacleCollision, null, this);
 
+
     this.music = this.sound.add('music');
     this.music.play({ loop: true });
 
@@ -81,8 +83,10 @@ class GameScene extends Phaser.Scene {
 
     this.scoreLabel = this.createScoreLabel(16, 16, this.score);
 
+
     this.scoreUpdateTimer = this.time.addEvent({
       delay: 1000, // Update score every second
+
       callback: this.updateScore,
       callbackScope: this,
       loop: true,
@@ -145,6 +149,7 @@ class GameScene extends Phaser.Scene {
     this.starLabel = this.add.text(16, 80, 'Stars: 0', { fontSize: '20px', fill: '#FFFF00' });
   
     this.stars.children.iterate(star => {
+
       const randomY = Phaser.Math.Between(15, 705);
       star.setPosition(star.x, randomY);
     });
@@ -176,7 +181,7 @@ class GameScene extends Phaser.Scene {
     pointsDisplay.innerHTML = `${this.scoreLabel.score}`;
     gameOverScreen.style.opacity = "1";
     const starsDisplay = document.getElementById('starsDisplay');
-    starsDisplay.innerHTML = `50  <img src=${starAsset}>`;
+    starsDisplay.innerHTML = `${this.starCount}  <img src=${starAsset}>`;
     const animatedText = anime({
       targets: '.gameOverText',
       translateY: 25,
@@ -260,6 +265,7 @@ class GameScene extends Phaser.Scene {
     }
   }
 
+
   moveObstacles(){
     const obstacleVelocity = -200 - this.scoreLabel.score * 0.1; // Adjust the factor as needed
 
@@ -289,7 +295,6 @@ class GameScene extends Phaser.Scene {
         const randomY = Phaser.Math.Between(100, 500);
         star.setPosition(800, randomY);
       }
-    });
     });
   }
 
@@ -353,15 +358,16 @@ class GameScene extends Phaser.Scene {
 
   collectStar(player, star) {
     star.disableBody(true, true);
+
     this.starCount += 10;
     this.starLabel.setText(`Stars: ${this.starCount}`);
 
     // Respawn a new star at a random position beyond the right edge of the screen
     const newStar = this.stars.create(1600, Phaser.Math.Between(15, 705), STAR_KEY);
+
     newStar.setVelocityX(-200);
     newStar.setScale(1);
     newStar.setDepth(1);
-
 
     // Adjust the new star's position to avoid overlapping with obstacles
     let randomY = Phaser.Math.Between(15, 705);
