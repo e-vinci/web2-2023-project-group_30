@@ -8,6 +8,7 @@ const {
   unlockUserSkin,
   checkUserSkin,
   updateCurrentSkin,
+  purchaseSkin,
 } = require('../models/users');
 const { authorize } = require('../utils/auths');
 const { parse } = require('../utils/json');
@@ -70,6 +71,14 @@ router.post('/change-current-skin', authorize, async (req, res) => {
   const { username } = req.user; // Récupéré du token JWT
 
   const result = await updateCurrentSkin(username, skinNumber);
+  res.json(result);
+});
+
+router.post('/purchase-skin', authorize, async (req, res) => {
+  const { skinName } = req.body;
+  const { username } = req.user;
+
+  const result = await purchaseSkin(username, skinName);
   res.json(result);
 });
 

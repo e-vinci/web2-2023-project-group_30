@@ -28,6 +28,16 @@ const defaultUsers = [
   },
 ];
 
+const skins = {
+  skin1: { price: 100 },
+  skin2: { price: 200 },
+  skin3: { price: 300 },
+  skin4: { price: 400 },
+  skin5: { price: 500 },
+  skin6: { price: 600 },
+  skin7: { price: 700 },
+};
+
 async function login(username, password) {
   const userFound = readOneUserFromUsername(username);
   if (!userFound) return undefined;
@@ -181,6 +191,27 @@ async function updateCurrentSkin(username, skinNumber) {
   return { success: true, message: `Current skin mis à jour vers skin${skinNumber}` };
 }
 
+async function purchaseSkin(username, skinName) {
+  const user = readOneUserFromUsername(username);
+  if (!user) return { success: false, message: 'Utilisateur non trouvé' };
+
+  const skin = skins[skinName];
+  if (!skin) return { success: false, message: 'Skin non trouvé' };
+
+  if (user.stars < skin.price) {
+    return { success: false, message: 'Pas assez de stars pour acheter ce skin' };
+  }
+
+  if (user[skinName]) {
+    return { success: false, message: 'Skin déjà possédé' };
+  }
+
+  user.stars -= skin.price;
+  user[skinName] = true;
+  await updateUserData(user);
+  return { success: true, message: `Skin ${skinName} acheté` };
+}
+
 module.exports = {
   login,
   register,
@@ -192,4 +223,5 @@ module.exports = {
   readAllUsers,
   checkUserSkin,
   updateCurrentSkin,
+  purchaseSkin,
 };

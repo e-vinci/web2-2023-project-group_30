@@ -11,8 +11,8 @@ import skin8 from '../../assets/Ship8.png';
 import star from '../../assets/star.png';
 
 const ShopPage = () => {
-    const main = document.querySelector('main');
-    main.innerHTML = `
+  const main = document.querySelector('main');
+  main.innerHTML = `
       <div class="container d-flex justify-content-center" id="shopPage">
 
           <div id="carouselShopItems" class="carousel slide">
@@ -31,7 +31,7 @@ const ShopPage = () => {
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin1}" class="d-block shopItemImg " alt="..." >
                   <div class=" shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 600 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Prix : 100 <img src="${star}"></h2>
                   </div>
               </div>    
             </div>
@@ -39,7 +39,7 @@ const ShopPage = () => {
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin2}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 1100 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Prix : 200 <img src="${star}"></h2>
                   </div>
               </div>    
             </div>
@@ -47,7 +47,7 @@ const ShopPage = () => {
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin3}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 1800 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Prix : 300 <img src="${star}"></h2>
                   </div>
               </div>    
             </div>
@@ -55,7 +55,7 @@ const ShopPage = () => {
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin4}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 1800 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Prix : 400 <img src="${star}"></h2>
                   </div>
               </div>    
             </div>
@@ -63,7 +63,7 @@ const ShopPage = () => {
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin5}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 1800 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Prix : 500 <img src="${star}"></h2>
                   </div>
               </div>    
             </div>
@@ -71,7 +71,7 @@ const ShopPage = () => {
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin6}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 1800 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Prix : 600 <img src="${star}"></h2>
                   </div>
               </div>    
             </div>
@@ -79,7 +79,7 @@ const ShopPage = () => {
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin7}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 1800 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Prix : 700 <img src="${star}"></h2>
                   </div>
               </div>    
             </div>
@@ -87,7 +87,7 @@ const ShopPage = () => {
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin8}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 1800 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Prix : 800 <img src="${star}"></h2>
                   </div>
               </div>    
             </div>
@@ -104,49 +104,124 @@ const ShopPage = () => {
           </button>
         </div>
         <button id="shopPurchaseBtn">Acheter</button>
+        <button id="equipSkinBtn" style="display:none;">Équiper Skin</button>
       </div>
     `;
 
-    let carouselShopItems = document.getElementById('carouselShopItems');
-    const itemImg = document.querySelectorAll('.shopItemImg');
-    const animatedImage = anime({
-      targets:itemImg,
-      loop:true,
-      translateY: [
-        { value: '-20px', duration: 500, easing: 'easeInOutQuad' },
-        { value: '20', duration: 500, easing: 'easeInOutQuad' },
-      ],
-      direction: 'alternate', 
-      delay: 1500
-    })
+  const fetchToken = () => {
+    const userObject = localStorage.getItem('user');
+    return userObject ? JSON.parse(userObject).token : null;
+  };
 
-    animatedImage.play();
+  const purchaseSkin = async (skinID) => {
+    const token = fetchToken();
+    if (!token) {
+      console.error('Token non trouvé');
+      return;
+    }
 
-    // eslint-disable-next-line no-unused-vars
-    carouselShopItems = new Carousel(carouselShopItems, {
-      keyboard: false
-    });
-
-    const button = document.getElementById('shopPurchaseBtn');
-    button.addEventListener('click', () => {
-      // eslint-disable-next-line no-unused-vars
-      const skinID = document.getElementsByClassName('active').item(1).id;
-      console.log(skinID)
-    });
-
-    const nextPrevious = document.querySelectorAll('.shopInteractionBtn');
-    nextPrevious.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        button.style.opacity = "0.1";
-        button.style.cursor = "wait";
-        setTimeout(() => {
-          button.style.opacity = "1";
-          button.style.cursor = "pointer";
-        }, 700);
+    try {
+      const response = await fetch(`api/users/purchase-skin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify({ skinName: `skin${skinID}` }),
       });
+
+      if (!response.ok) {
+        throw new Error('Échec de l’achat du skin');
+      }
+
+      console.log(`Skin ${skinID} acheté avec succès`);
+      document.getElementById('equipSkinBtn').style.display = 'block';
+    } catch (error) {
+      console.error('Erreur lors de l’achat du skin:', error);
+    }
+  };
+
+  const equipSkin = async (skinID) => {
+    const token = fetchToken();
+    if (!token) {
+      console.error('Token non trouvé');
+      return;
+    }
+
+    try {
+      const response = await fetch(`api/users/change-current-skin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify({ skinNumber: skinID }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Échec de l’équipement du skin');
+      }
+
+      console.log(`Skin ${skinID} équipé avec succès`);
+    } catch (error) {
+      console.error('Erreur lors de l’équipement du skin:', error);
+    }
+  };
+
+  const buttonn = document.getElementById('shopPurchaseBtn');
+  buttonn.addEventListener('click', () => {
+    const skinID = document.getElementsByClassName('active').item(1).id;
+    purchaseSkin(skinID);
+  });
+
+  // Ajout du bouton d'équipement et de son écouteur d'événements
+  const equipButton = document.getElementById('equipSkinBtn');
+  equipButton.addEventListener('click', () => {
+    const skinID = document.getElementsByClassName('active').item(1).id;
+    equipSkin(skinID);
+    equipButton.style.display = 'none'; // Cache le bouton après l'équipement
+  });
+
+  // ... [Le reste de ton code pour l'animation et le carrousel]
+
+  let carouselShopItems = document.getElementById('carouselShopItems');
+  const itemImg = document.querySelectorAll('.shopItemImg');
+  const animatedImage = anime({
+    targets: itemImg,
+    loop: true,
+    translateY: [
+      { value: '-20px', duration: 500, easing: 'easeInOutQuad' },
+      { value: '20', duration: 500, easing: 'easeInOutQuad' },
+    ],
+    direction: 'alternate',
+    delay: 1500,
+  });
+
+  animatedImage.play();
+
+  // eslint-disable-next-line no-unused-vars
+  carouselShopItems = new Carousel(carouselShopItems, {
+    keyboard: false,
+  });
+
+  const button = document.getElementById('shopPurchaseBtn');
+  button.addEventListener('click', () => {
+    // eslint-disable-next-line no-unused-vars
+    const skinID = document.getElementsByClassName('active').item(1).id;
+    console.log(skinID);
+  });
+
+  const nextPrevious = document.querySelectorAll('.shopInteractionBtn');
+  nextPrevious.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      button.style.opacity = '0.1';
+      button.style.cursor = 'wait';
+      setTimeout(() => {
+        button.style.opacity = '1';
+        button.style.cursor = 'pointer';
+      }, 700);
     });
+  });
 };
 
-  
-  export default ShopPage;
-  
+export default ShopPage;
