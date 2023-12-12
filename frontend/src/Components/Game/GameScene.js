@@ -17,7 +17,6 @@ class GameScene extends Phaser.Scene {
     super('game-scene');
     this.player = undefined;
     this.cursors = undefined;
-    this.scoreLabel = undefined;
     this.starLabel = undefined;
     this.starCount = 0;
     this.timerEvent = undefined;
@@ -29,9 +28,12 @@ class GameScene extends Phaser.Scene {
     this.starDelayDecreaseRate = 10;
     this.gameOverFlag  = false;
     this.stars = undefined;
-    this.score = 0; // Initialize the score
-    this.scoreIncrement = 10; // Increment value for the score
-    this.scoreDelay = 1000;
+
+    // initialize score
+    this.scoreLabel = undefined;
+    this.score = 0;
+    // this.scoreIncrement = 10; // Increment value for the score
+    // this.scoreDelay = 1000;
   }
 
   preload() {
@@ -80,15 +82,22 @@ class GameScene extends Phaser.Scene {
     }
     this.music = this.sound.add('music');
     this.music.play({ loop: true });
-    this.initialPlayerX = this.player.x;
+
+    // this.initialPlayerX = this.player.x;
+
     this.scoreLabel = this.createScoreLabel(16, 16, this.score);
-    this.cursors = this.input.keyboard.createCursorKeys();
-    this.scoreTimer = this.time.addEvent({
-      delay: this.scoreDelay, // Update score every specified milliseconds
+
+
+    this.scoreUpdateTimer = this.time.addEvent({
+      delay: 1000, // Update score every second
+
       callback: this.updateScore,
       callbackScope: this,
       loop: true,
     });
+
+    this.cursors = this.input.keyboard.createCursorKeys(); 
+
     this.timerEvent = this.time.addEvent({
     delay: this.obstacleDelay,
     callback: this.moveObstacles,
@@ -138,11 +147,13 @@ class GameScene extends Phaser.Scene {
   async gameOver() {
     this.scoreLabel.setText(`GAME OVER  \nYour Score = ${this.scoreLabel.score}`);
     this.physics.pause();
+
     this.music.stop();
     this.sound.play('gameOver');
     if (this.scoreTimer) {
       this.scoreTimer.destroy();
     }
+
     this.player.setTint(0xff0000);
     this.gameOverFlag = true;
     const gameOverScreen = document.getElementById('gameOverScreen');
@@ -175,6 +186,7 @@ class GameScene extends Phaser.Scene {
   if (!token) {
     console.error('Token JWT non trouvé, score non enregistré');
     return;
+
   }
 
   // Envoyer le score au serveur avec le token JWT
@@ -231,8 +243,7 @@ class GameScene extends Phaser.Scene {
 
   updateScore() {
     if (!this.gameOverFlag) {
-      this.score += this.scoreIncrement; // Increment the score by the defined value
-      this.scoreLabel.setScore(this.score); // Update the score label
+      this.scoreLabel.add(10); // Increment the score by 10
     }
   }
 
