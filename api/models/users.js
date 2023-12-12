@@ -98,6 +98,7 @@ async function createOneUser(username, password, birthdate) {
     skin6: false,
     skin7: false,
     skin8: false,
+    currentskin: 0,
   };
 
   users.push(createdUser);
@@ -128,6 +129,43 @@ function readAllUsers() {
   const users = parse(jsonDbPath, defaultUsers);
   return users;
 }
+
+async function unlockUserSkin(username, skinName) {
+  const user = readOneUserFromUsername(username);
+  console.log(`Username: ${username}, SkinName: ${skinName}, SkinStatus: ${user[skinName]}`);
+
+  if (!user) {
+    return { success: false, message: 'Utilisateur non trouvé' };
+  }
+
+  if (user[skinName] === false) {
+    user[skinName] = true;
+    await updateUserData(user);
+    return { success: true, message: `${skinName} débloqué` };
+  }
+  return { success: false, message: 'Ce skin est déjà débloqué' };
+}
+
+function checkUserSkin(username, skinName) {
+  const user = readOneUserFromUsername(username);
+  if (!user) return null;
+
+  return user[skinName];
+}
+
+async function updateCurrentSkin(username, skinNumber) {
+  const user = readOneUserFromUsername(username);
+  if (!user) return { success: false, message: 'Utilisateur non trouvé' };
+
+  if (user[`skin${skinNumber}`] !== true) {
+    return { success: false, message: 'Skin non débloqué' };
+  }
+
+  user.currentskin = skinNumber;
+  await updateUserData(user);
+  return { success: true, message: `Current skin mis à jour vers skin${skinNumber}` };
+}
+
 module.exports = {
   login,
   register,
@@ -135,5 +173,8 @@ module.exports = {
   updateUserData,
   jsonDbPath,
   defaultUsers,
+  unlockUserSkin,
   readAllUsers,
+  checkUserSkin,
+  updateCurrentSkin,
 };
