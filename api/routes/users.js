@@ -30,8 +30,8 @@ router.post('/update-score', authorize, async (req, res) => {
     return res.status(404).json({ message: 'Utilisateur non trouvé' });
   }
 
-  if (newScore > user.score) {
-    user.score = newScore;
+  if (newScore > user.bestscore) {
+    user.bestscore = newScore;
     await updateUserData(user);
     res.json({ success: true, message: 'Score mis à jour' });
   } else {

@@ -11,7 +11,7 @@ const LeaderboardPage = async () => {
     const players = await fetchPlayers();
   
 
-    players.sort((a, b) => b.score - a.score); // Sort players by points
+    players.sort((a, b) => b.bestscore - a.bestscore); // Sort players by points
 
     const main = document.querySelector('main');
     main.innerHTML = `
@@ -30,7 +30,7 @@ const LeaderboardPage = async () => {
                 ${players.slice(0, 10).map((player) => `
                   <tr>
                     <td class="text-white bg-transparent">${player.username}</td>
-                    <td class="text-white bg-transparent">${player.score}</td>
+                    <td class="text-white bg-transparent">${player.bestscore}</td>
                   </tr>
                 `).join('')}
               </tbody>
