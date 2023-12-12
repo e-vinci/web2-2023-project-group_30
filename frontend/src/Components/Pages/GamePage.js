@@ -11,7 +11,6 @@ import Navigate from '../Router/Navigate';
 // import CommandsPage from "./CommandsPage";
 // eslint-disable-next-line import/order, import/no-duplicates
 
-
 let game;
 const rulesAndCommands = CommandsPage();
 
@@ -36,7 +35,6 @@ const GamePage = () => {
   </div>  
   <div id="gameDiv" class="d-flex justify-content-center my-3">
     <button type="button"  id="gamePauseButton" class="" data-bs-toggle="modal" data-bs-target="#pauseModal"> || </button>
-    
     ${PauseMenu}
     ${GameOver}
   </div>
@@ -51,7 +49,6 @@ const GamePage = () => {
   let pauseButtonPosition = ((mainWidth - 1200) / 2);
   if (pauseButtonPosition < 0) pauseButtonPosition = 0;
   pauseButton.style.right = `${pauseButtonPosition + 5}px`;
-
 
   const config = {
     type: Phaser.AUTO,
@@ -68,6 +65,7 @@ const GamePage = () => {
     //  parent DOM element into which the canvas created by the renderer will be injected.
     parent: 'gameDiv',
   };
+
   if (game) game.destroy(true);
   game = new Phaser.Game(config);
   game.pause();
@@ -149,6 +147,7 @@ const GamePage = () => {
   });
 
   // eslint-disable-next-line no-unused-vars
+
   const pauseModal = new Modal(document.getElementById('pauseModal'), {
     keyboard: false,
     backdrop: false
