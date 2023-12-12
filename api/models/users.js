@@ -49,7 +49,22 @@ async function login(username, password) {
   return authenticatedUser;
 }
 
+// Ajoutez cette fonction pour valider la date de naissance
+function isValidBirthdate(birthdate) {
+  const year = parseInt(birthdate.split('-')[0], 10);
+  return year >= 1900 && year <= 2023;
+}
+
+// Ajoutez cette fonction pour valider le mot de passe
+function isValidPassword(password) {
+  const regex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  return regex.test(password);
+}
+
 async function register(username, password, birthdate) {
+  if (!isValidBirthdate(birthdate) || !isValidPassword(password)) {
+    return { success: false, message: 'Date de naissance ou mot de passe invalide' };
+  }
   const userFound = readOneUserFromUsername(username);
   if (userFound) return undefined;
 
