@@ -17,6 +17,14 @@ const defaultUsers = [
     password: bcrypt.hashSync('admin', saltRounds),
     birthdate: '1990-01-01',
     score: 0,
+    skin1: false,
+    skin2: false,
+    skin3: false,
+    skin4: false,
+    skin5: false,
+    skin6: false,
+    skin7: false,
+    skin8: false,
   },
 ];
 
@@ -79,7 +87,17 @@ async function createOneUser(username, password, birthdate) {
     username,
     password: hashedPassword,
     birthdate,
-    score: 0,
+    bestscore: 0,
+    stars: 0,
+    skin0: true,
+    skin1: false,
+    skin2: false,
+    skin3: false,
+    skin4: false,
+    skin5: false,
+    skin6: false,
+    skin7: false,
+    skin8: false,
   };
 
   users.push(createdUser);
