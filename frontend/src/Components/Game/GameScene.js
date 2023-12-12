@@ -11,7 +11,6 @@ import starAsset from '../../assets/star.png';
 
 const DUDE_KEY = 'dude';
 const BULLET_KEY = 'bullet';
-const STAR_KEY = 'star';
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -42,7 +41,7 @@ class GameScene extends Phaser.Scene {
     this.load.audio('music', gameAudio);
     this.load.audio('gameOver', gameOverAudio);
     this.load.image(BULLET_KEY, bulletAsset);
-    this.load.image(STAR_KEY, starAsset);
+    this.load.image('star', starAsset);
   }
 
   create() {
@@ -66,11 +65,11 @@ class GameScene extends Phaser.Scene {
      this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
      // Create a label to display the collected stars count
-     this.starLabel = this.add.text(16, 70, 'Stars: 0', { fontSize: '40px', fill: '#FFFF00' })
+     this.starLabel = this.add.text(16, 70, 'Stars: 0', { fontSize: '20px', fill: '#FFF', fontFamily: 'Pixelify Sans' })
     
     // Create obstacles outside the game scene
     // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 25; i++) {
       // Increase the number of obstacles
       const obstacle = this.obstacles.create(
         Phaser.Math.Between(400, 4000), // Place obstacles outside the game scene
@@ -101,7 +100,13 @@ class GameScene extends Phaser.Scene {
       callback: this.moveStars,
       callbackScope: this,
       loop: true
-     })
+    })
+     this.starTimer = this.time.addEvent({
+      delay: 10000, 
+      callback: this.createStars,
+      callbackScope: this,
+      loop: true // Loop the event
+    });
     this.bullets = this.physics.add.group({
       key: BULLET_KEY,
       repeat: 9,
@@ -262,16 +267,12 @@ class GameScene extends Phaser.Scene {
   }
 
   createStars() {
-    // Create stars continuously without a loop
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < 10; i++) {
       const star = this.stars.create(
-        Phaser.Math.Between(400, 4000),
-        Phaser.Math.Between(0, 900),
-        STAR_KEY
+        Phaser.Math.Between(2000, 2500),
+        Phaser.Math.Between(0, 800),
+        'star'
       );
       star.setCollideWorldBounds(false);
-    }
   }
 
   moveStars() {
