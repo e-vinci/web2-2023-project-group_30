@@ -199,6 +199,7 @@ class GameScene extends Phaser.Scene {
   if (!token) {
     console.error('Token JWT non trouvé, score non enregistré');
     return;
+
   }
 
   // Envoyer le score au serveur avec le token JWT
@@ -222,36 +223,35 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-      if (this.gameOverFlag) {
-          return;
-      }
+    if (this.gameOverFlag) {
+      return;
+    }
+    const sceneHeight = 735;
+    if (this.cursors.up.isDown && this.player.y > 0) {
+      this.player.setVelocityY(-300);
+    } else if (
+      this.cursors.down.isDown &&
+      this.player.y < sceneHeight - this.player.displayHeight
+    ) {
+      this.player.setVelocityY(300);
+    } else {
+      this.player.setVelocityY(0);
+    }
+    if (this.cursors.space.isDown) {
+      this.tryShootBullet();
+    }
+    // Update bullet ready text
+    const currentTime = this.time.now;
+    const timeSinceLastShot = currentTime - this.lastFiredTime;
 
-      const sceneHeight = 735;
-
-      if (this.cursors.up.isDown && this.player.y > 0) {
-          this.player.setVelocityY(-300);
-      } else if (this.cursors.down.isDown && this.player.y < sceneHeight - this.player.displayHeight) {
-          this.player.setVelocityY(300);
-      } else {
-          this.player.setVelocityY(0);
-      }
-
-      if (this.cursors.space.isDown) {
-        this.tryShootBullet();
-      }
-
-      // Update bullet ready text
-      const currentTime = this.time.now;
-      const timeSinceLastShot = currentTime - this.lastFiredTime;
-      
-      if (timeSinceLastShot > this.fireDelay) {
-        this.bulletReadyText.setText('Bullet Ready');
-        this.bulletReadyText.setFill('#00FF00');
-      } else {
-        const timeRemaining = (this.fireDelay - timeSinceLastShot) / 1000;
-        this.bulletReadyText.setText(`Bullet Cooldown: ${timeRemaining.toFixed(1)}s`);
-        this.bulletReadyText.setFill('#FF0000');
-      }
+    if (timeSinceLastShot > this.fireDelay) {
+      this.bulletReadyText.setText('Bullet Ready');
+      this.bulletReadyText.setFill('#00FF00'); // Green color
+    } else {
+      const timeRemaining = (this.fireDelay - timeSinceLastShot) / 1000;
+      this.bulletReadyText.setText(`Bullet Cooldown: ${timeRemaining.toFixed(1)}s`);
+      this.bulletReadyText.setFill('#FF0000'); // Red color
+    }
   }
 
   updateScore() {
