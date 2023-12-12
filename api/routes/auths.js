@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
 
   return res.json(authenticatedUser);
 });
-
+// aaa
 /* Login a user */
 router.post('/login', async (req, res) => {
   const username = req?.body?.username?.length !== 0 ? req.body.username : undefined;

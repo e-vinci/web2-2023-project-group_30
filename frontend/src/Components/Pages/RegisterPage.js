@@ -64,7 +64,7 @@ const registerForm = document.getElementById('registerForm');
             });
 
             if (response.ok) {
-                Navigate('/')
+                Navigate('/login')
             } else {
                 
                 console.error('Erreur d\'inscription');
