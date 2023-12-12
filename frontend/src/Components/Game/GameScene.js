@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import anime from 'animejs';
 import ScoreLabel from './ScoreLabel';
 import skyAsset from '../../assets/sky_tes.jpg';
 import asteroidAsset from '../../assets/asteroid.png';
@@ -116,6 +117,7 @@ class GameScene extends Phaser.Scene {
     this.bulletReadyText = this.add.text(16, 50, 'Bullet Ready', {
       fontSize: '20px',
       fill: '#00FF00',
+      fontFamily: 'Pixelify Sans',
     });
     this.lastFiredTime = 0; // Time when the last bullet was fired
     this.fireDelay = 2000; // Delay between consecutive shots in milliseconds
@@ -145,6 +147,22 @@ class GameScene extends Phaser.Scene {
     }
     this.player.setTint(0xff0000);
     this.gameOverFlag = true;
+
+    
+    const gameOverScreen = document.getElementById('gameOverScreen');
+    gameOverScreen.style.display = "grid";
+    const pointsDisplay = document.getElementById('pointsDisplay');
+    pointsDisplay.innerHTML = `${this.scoreLabel.score}`;
+    gameOverScreen.style.opacity = "1";
+    const starsDisplay = document.getElementById('starsDisplay');
+    starsDisplay.innerHTML = `50  <img src=${starAsset}>`;
+    const animatedText = anime({
+      targets: '.gameOverText',
+      translateY: 25,
+      easing: 'easeInOutExpo',
+      delay: 250
+    });
+    animatedText.play();
 
     const userObject = localStorage.getItem('user');
 
@@ -332,10 +350,9 @@ class GameScene extends Phaser.Scene {
   }
 
   createScoreLabel(x, y, score) {
-    const style = { fontSize: '32px', fill: '#FFF' };
+    const style = { fontSize: '32px', fill: '#FFF', fontFamily: 'Pixelify Sans'};
     const label = new ScoreLabel(this, x, y, score, style);
     this.add.existing(label);
-
     return label;
   }
 }

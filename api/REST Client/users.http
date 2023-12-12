@@ -18,3 +18,5 @@ Content-Type: application/json
 {
     "newScore": 10
 }
+###2
+GET {{baseUrl}}/users/

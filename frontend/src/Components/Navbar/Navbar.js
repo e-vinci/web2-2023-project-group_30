@@ -6,15 +6,20 @@ const Navbar = () => {
   const navbarWrapper = document.querySelector('#navbarWrapper');
 
   // Fonction pour générer le bouton de connexion/déconnexion
-  function logButton() {
-    if (isLoggedIn()) {
-      return `<a class="nav-link text-white fs-4" href="#" id="logout1">Se déconnecter</a>`;
-    }
-      return `
-        <a class="nav-link text-white fs-4" href="#" data-uri="/login">Se connecter</a>
-        ${register()}
+  // Fonction pour générer le bouton de connexion/déconnexion
+function logButton() {
+  if (isLoggedIn()) {
+    return `
+    <a class="nav-link text-white fs-4" href="#" id="logout1">Se déconnecter</a>
+      <a class="nav-link text-white fs-4" href="#" id="profile" data-uri="/profile">Mon Profil</a>
       `;
-    }
+  }
+  return `
+    <a class="nav-link text-white fs-4" href="#" data-uri="/login">Se connecter</a>
+    ${register()}
+  `;
+}
+
   
 
   // Fonction pour générer le bouton d'inscription

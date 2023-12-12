@@ -106,7 +106,10 @@ async function updateUserData(updatedUser) {
     serialize(jsonDbPath, users);
   }
 }
-
+function readAllUsers() {
+  const users = parse(jsonDbPath, defaultUsers);
+  return users;
+}
 module.exports = {
   login,
   register,
@@ -114,4 +117,5 @@ module.exports = {
   updateUserData,
   jsonDbPath,
   defaultUsers,
+  readAllUsers,
 };
