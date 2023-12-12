@@ -181,7 +181,7 @@ class GameScene extends Phaser.Scene {
     pointsDisplay.innerHTML = `${this.scoreLabel.score}`;
     gameOverScreen.style.opacity = "1";
     const starsDisplay = document.getElementById('starsDisplay');
-    starsDisplay.innerHTML = `50  <img src=${starAsset}>`;
+    starsDisplay.innerHTML = `${this.starCount}  <img src=${starAsset}>`;
     const animatedText = anime({
       targets: '.gameOverText',
       translateY: 25,
