@@ -99,6 +99,7 @@ class GameScene extends Phaser.Scene {
     this.bulletReadyText = this.add.text(16, 50, 'Bullet Ready', {
       fontSize: '20px',
       fill: '#00FF00',
+      fontFamily: 'Pixelify Sans',
     });
     this.lastFiredTime = 0; // Time when the last bullet was fired
     this.fireDelay = 2000; // Delay between consecutive shots in milliseconds
@@ -323,10 +324,9 @@ class GameScene extends Phaser.Scene {
   }
 
   createScoreLabel(x, y, score) {
-    const style = { fontSize: '32px', fill: '#FFF' };
+    const style = { fontSize: '32px', fill: '#FFF', fontFamily: 'Pixelify Sans'};
     const label = new ScoreLabel(this, x, y, score, style);
     this.add.existing(label);
-
     return label;
   }
 
