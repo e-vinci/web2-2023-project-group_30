@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 // eslint-disable-next-line no-unused-vars, import/no-duplicates
 import {Modal} from 'bootstrap'
 import GameScene from '../Game/GameScene';
-import CommandsPage from './CommandsPage';
+import CommandsPage from '../Modals/CommandsPage';
 import PauseMenu from '../Modals/PauseMenu';
 import GameOver from '../Modals/GameOver';
 import Navigate from '../Router/Navigate';
@@ -13,7 +13,6 @@ import Navigate from '../Router/Navigate';
 
 
 let game;
-const rulesAndCommands = CommandsPage();
 
 const GamePage = () => {
   const phaserGame = `
@@ -23,7 +22,7 @@ const GamePage = () => {
       <div class="modal-content">
         <form class="" id="formSeeRulesAgain">
         <div class="modal-body text-center">
-          ${rulesAndCommands}
+          ${CommandsPage()}
             <input type="checkbox" id="check">
             <label for="check" id="label">Ne plus montrer ce message</label>
         </div>

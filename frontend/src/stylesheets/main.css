@@ -240,3 +240,19 @@
 #gameOverRestart, #gameOverExit{
     justify-self: center;
 }
+
+.rulesAndCommandsIcons{
+    background-color: grey;
+    border-radius: 3px;
+    left: 25%;
+    position: relative;
+}
+
+.rulesAndCommandsText{
+    position: relative;
+    right: 10%;
+    width: min-content;
+    background-color: transparent;
+    margin: 10px;
+    margin-top: 0px;
+}

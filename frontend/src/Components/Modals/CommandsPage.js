@@ -1,29 +1,33 @@
+import spaceBtn from '../../assets/commandsSpace.svg';
+import upBtn from '../../assets/commandsUp.svg';
+import downBtn from '../../assets/commandsDown.svg'
+
 const RulesAndCommands = () => {
    const  htmlCommands = `
    <div class="modal-body">
-      <h2>Commandes du Jeu</h2>
-      <p>
-          Dans ce jeu, vous contrôlez votre personnage à l'aide des touches directionnelles.
-      </p>
-      <p>
-          <strong>Monter :</strong> Appuyez sur la touche <span class="key">↑</span> pour déplacer votre personnage vers le haut.
-      </p>
-      <p>
-          <strong>Descendre :</strong> Appuyez sur la touche <span class="key">↓</span> pour déplacer votre personnage vers le bas.
-      </p>
-      <p>
-          Utilisez ces touches pour naviguer à travers le monde du jeu et accomplir vos objectifs !
-      </p>
-      <h2>Règles :</h2>
-      <ol>
-          <li>Collectez des objets en déplaçant votre personnage vers eux.</li>
-          <li>Évitez les obstacles pour maintenir la santé de votre personnage.</li>
-          <li>Essayez d'aller le plus loin possible et faites votre chemin vers le <strong>TOP 10</strong>.</li>
-      </ol>
-      <p>
-          Suivez ces règles pour progresser dans le jeu et atteindre la victoire !
-      </p>
+   <h2>Commandes du Jeu</h2>
+   <p>Dans ce jeu, vous contrôlez votre personnage à l'aide des touches directionnelles.</p>
+   <div class="container text-center">
+      <div class="row">
+         <h6 class="col"><img src="${upBtn}" class="rulesAndCommandsIcons" alt="Bouton Haut"></h6>
+         <span class="col rulesAndCommandsText"> Monter</span>
+      </div>
+      <div class="row">
+         <h6 class="col"><img src="${downBtn}" class="rulesAndCommandsIcons" alt="Bouton Bas"></h6>
+         <span class="col rulesAndCommandsText"> Descendre</span> 
+      </div>
+      <div class="row">
+         <h6 class="col"><img src="${spaceBtn}" class="rulesAndCommandsIcons" alt="Bouton Espace"></h6>
+         <span class="col rulesAndCommandsText"> Tirer</span> 
+      </div>
    </div>
+   <h2>Règles :</h2>
+   <ol>
+      <li>Collectez les étoiles en déplaçant votre vaisseau vers elles.</li>
+      <li>Évitez les astéroïdes pour rester en vie.</li>
+      <li>Essayez d'aller aussi loin que possible et de vous hisser jusqu'au <strong>TOP 10</strong>.</li>
+   </ol>
+</div>
 `;
   return htmlCommands;
   };
