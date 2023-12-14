@@ -98,19 +98,17 @@ class GameScene extends Phaser.Scene {
     });
 
     this.cursors = this.input.keyboard.createCursorKeys(); 
-
-    this.timerEvent = this.time.addEvent({
-    delay: this.obstacleDelay,
-    callback: this.moveObstacles,
-    callbackScope: this,
-    loop: true
-    })
-    this.timerEvent = this.time.addEvent({
-      delay: this.starDelay,
-      callback: this.moveStars,
+    
+    this.obstacleAndStarMoveEvent = this.time.addEvent({
+      delay: Math.min(this.obstacleDelay, this.starDelay),
+      callback: () => {
+        this.moveObstacles();
+        this.moveStars();
+      },
       callbackScope: this,
       loop: true
-    })
+    });
+    
     this.bullets = this.physics.add.group({
       key: BULLET_KEY,
       repeat: 9,
@@ -181,17 +179,6 @@ class GameScene extends Phaser.Scene {
     return;
   }
 
-  // // Parser l'objet User pour obtenir le token JWT
-  // const parsedUserObject = JSON.parse(userObject);
-  // const {token} = parsedUserObject.token;
-
-  // if (!token) {
-  //   console.error('Token JWT non trouvé, score non enregistré');
-  //   return;
-
-  // }
-
-  // Envoyer le score au serveur avec le token JWT
   try {
     const response = await fetch('/api/users/update-score', {
       method: 'POST',
