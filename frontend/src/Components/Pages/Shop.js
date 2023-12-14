@@ -1,5 +1,6 @@
 import { Carousel } from 'bootstrap';
 import anime from 'animejs';
+import { getUserSessionData, isLoggedIn } from '../../utils/auth';
 import skin1 from '../../assets/Ship1.png';
 import skin2 from '../../assets/Ship2.png';
 import skin3 from '../../assets/Ship3.png';
@@ -27,15 +28,15 @@ const ShopPage = () => {
             <button type="button" data-bs-target="#carouselShopItems" data-bs-slide-to="7" aria-label="Slide 8"></button>
           </div>
           <div class="carousel-inner h-100">
-            <div class="carousel-item active h-100" id="1">
+            <div class="carousel-item active h-100" id="0">
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin1}" class="d-block shopItemImg " alt="..." >
                   <div class=" shopItemDesc">
-                  <h2 class="shopItemTitle">Prix : 600 <img src="${star}"></h2>
+                  <h2 class="shopItemTitle">Acquis &#x2713;</h2>
                   </div>
               </div>    
             </div>
-            <div class="carousel-item h-100" id="2">
+            <div class="carousel-item h-100" id="1">
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin2}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
@@ -43,7 +44,7 @@ const ShopPage = () => {
                   </div>
               </div>    
             </div>
-            <div class="carousel-item h-100" id="3">
+            <div class="carousel-item h-100" id="2">
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin3}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
@@ -51,7 +52,7 @@ const ShopPage = () => {
                   </div>
               </div>    
             </div>
-            <div class="carousel-item h-100" id="4">
+            <div class="carousel-item h-100" id="3">
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin4}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
@@ -59,7 +60,7 @@ const ShopPage = () => {
                   </div>
               </div>    
             </div>
-            <div class="carousel-item h-100" id="5">
+            <div class="carousel-item h-100" id="4">
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin5}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
@@ -67,7 +68,7 @@ const ShopPage = () => {
                   </div>
               </div>    
             </div>
-            <div class="carousel-item h-100" id="6">
+            <div class="carousel-item h-100" id="5">
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin6}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
@@ -75,7 +76,7 @@ const ShopPage = () => {
                   </div>
               </div>    
             </div>
-            <div class="carousel-item h-100" id="7">
+            <div class="carousel-item h-100" id="6">
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin7}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
@@ -83,7 +84,7 @@ const ShopPage = () => {
                   </div>
               </div>    
             </div>
-            <div class="carousel-item h-100" id="8">
+            <div class="carousel-item h-100" id="7">
               <div class="h-100 shopItemContainer w-100 justify-content-center">
                   <img src="${skin8}" class="d-block shopItemImg" alt="...">
                   <div class="shopItemDesc">
@@ -103,9 +104,11 @@ const ShopPage = () => {
             <span class="visually-hidden">Next</span>
           </button>
         </div>
-        <button id="shopPurchaseBtn">Acheter</button>
+        <button id="shopPurchaseBtn" data-uri="">Equiper</button>
       </div>
     `;
+
+    console.log(getUserSessionData());
 
     let carouselShopItems = document.getElementById('carouselShopItems');
     const itemImg = document.querySelectorAll('.shopItemImg');
@@ -118,7 +121,7 @@ const ShopPage = () => {
       ],
       direction: 'alternate', 
       delay: 1500
-    })
+    });
 
     animatedImage.play();
 
@@ -128,23 +131,86 @@ const ShopPage = () => {
     });
 
     const button = document.getElementById('shopPurchaseBtn');
-    button.addEventListener('click', () => {
-      // eslint-disable-next-line no-unused-vars
-      const skinID = document.getElementsByClassName('active').item(1).id;
-      console.log(skinID)
-    });
+    console.log(isLoggedIn())
 
-    const nextPrevious = document.querySelectorAll('.shopInteractionBtn');
-    nextPrevious.forEach((btn) => {
-      btn.addEventListener('click', () => {
+    if(isLoggedIn()){
+      const nextPrevious = document.querySelectorAll('.shopInteractionBtn');
+      nextPrevious.forEach((btn) => {
+      
+      btn.addEventListener('click', async () => {
+        const btnClicked = btn.dataset.bsSlide;
+        let skinID = document.getElementsByClassName('active').item(1).id;
+        skinID = parseInt(skinID, 10);
+
+        if(btnClicked === 'prev') {
+          skinID -= 1;
+          if (skinID < 0) skinID = 7;
+        } else {  
+            skinID += 1;
+            if (skinID > 7) skinID = 0;
+          };
+        let isUnlocked;
+        let skinData;
+        try {
+          const response = await fetch(`/api/users/check-skin/${getUserSessionData().username}/skin${skinID}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: getUserSessionData().token
+            }
+          });
+          skinData = await response.json();
+          console.log('test ', isUnlocked.isUnlocked);
+        } catch {
+          console.error('CANNOT GET SKIN STATUS OF THE SKIN')
+        }
+
         button.style.opacity = "0.1";
         button.style.cursor = "wait";
         setTimeout(() => {
           button.style.opacity = "1";
           button.style.cursor = "pointer";
         }, 700);
+
+        isUnlocked = skinData?.isUnlocked;
+
+        if (isUnlocked){
+          console.log(isUnlocked)
+          const container = document.getElementById(`${skinID}`)
+          const title = container.querySelector('.shopItemTitle')
+          title.innerHTML = 'Acquis &#x2713;'
+          button.innerHTML = 'Equiper';
+        } else {
+          button.innerHTML = 'Acheter';
+        }
+
+        button.addEventListener('click', async () => {
+          await fetch('/api/users/change-current-skin', {
+             method: 'POST',
+             headers: {
+               'Content-Type': 'application/json',
+               Authorization: getUserSessionData().token
+             },
+             body: JSON.stringify({
+               "skinNumber": skinID
+             })
+           })
+           .then(response => {
+             if (!response.ok) throw new Error('Error in the purchasing of the skin')
+             return response.json();
+           })
+           .then ((e) => {
+             console.log(e)
+           })
+           .catch (console.error('ERROR IN THE PURCHASING OF THE SKIN'));
+       });
       });
     });
+    } else {
+      button.innerHTML = 'Connectez-vous';
+      button.style.border = "0px";
+      button.dataset.uri = '/login';
+    } 
 };
 
   
