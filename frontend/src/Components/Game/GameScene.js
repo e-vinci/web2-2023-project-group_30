@@ -8,6 +8,7 @@ import gameAudio from '../../assets/audio/gamemusic-6082.mp3';
 import gameOverAudio from '../../assets/audio/game-over-arcade-6435.mp3';
 import bulletAsset from '../../assets/bullets.png';
 import starAsset from '../../assets/star.png';
+import { getUserSessionData } from '../../utils/auth';
 
 const DUDE_KEY = 'dude';
 const BULLET_KEY = 'bullet';
@@ -156,6 +157,7 @@ class GameScene extends Phaser.Scene {
 
     this.player.setTint(0xff0000);
     this.gameOverFlag = true;
+
     const gameOverScreen = document.getElementById('gameOverScreen');
     gameOverScreen.style.display = "grid";
     const pointsDisplay = document.getElementById('pointsDisplay');
@@ -163,9 +165,10 @@ class GameScene extends Phaser.Scene {
     gameOverScreen.style.opacity = "1";
     const starsDisplay = document.getElementById('starsDisplay');
     starsDisplay.innerHTML = `${this.starCount}  <img src=${starAsset}>`;
+    
     const animatedText = anime({
       targets: '.gameOverText',
-      translateY: 25,
+      translateY: 15,
       easing: 'easeInOutExpo',
       delay: 250
     });
@@ -178,26 +181,25 @@ class GameScene extends Phaser.Scene {
     return;
   }
 
+  // // Parser l'objet User pour obtenir le token JWT
+  // const parsedUserObject = JSON.parse(userObject);
+  // const {token} = parsedUserObject.token;
 
-  // Parser l'objet User pour obtenir le token JWT
-  const parsedUserObject = JSON.parse(userObject);
-  const {token} = parsedUserObject;
+  // if (!token) {
+  //   console.error('Token JWT non trouvé, score non enregistré');
+  //   return;
 
-  if (!token) {
-    console.error('Token JWT non trouvé, score non enregistré');
-    return;
-
-  }
+  // }
 
   // Envoyer le score au serveur avec le token JWT
   try {
-    const response = await fetch('http://localhost:3000/users/update-score', {
+    const response = await fetch('/api/users/update-score', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `${token}`
+        'Authorization': `${getUserSessionData().token}`
       },
-      body: JSON.stringify({ newScore: this.score })
+      body: JSON.stringify({ newScore: this.scoreLabel.score })
     });
   
     if (!response.ok) {
