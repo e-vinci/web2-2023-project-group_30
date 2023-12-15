@@ -210,6 +210,15 @@ async function updateCurrentSkin(username, skinNumber) {
   return { success: true, message: `Current skin mis à jour vers skin${skinNumber}` };
 }
 
+async function addStars(username, starsToBeAdded) {
+  const user = readOneUserFromUsername(username);
+  if (!user) return { success: false, message: 'Utilisateur non trouvé' };
+  console.log(starsToBeAdded);
+  user.stars += parseInt(starsToBeAdded, 10);
+  await updateUserData(user);
+  return { success: true, message: `${starsToBeAdded} stars have been added` };
+}
+
 module.exports = {
   login,
   register,
@@ -222,6 +231,7 @@ module.exports = {
   readAllUsers,
   checkUserSkin,
   getCurrentSkin,
+  addStars,
   getBalance,
   updateCurrentSkin,
 };

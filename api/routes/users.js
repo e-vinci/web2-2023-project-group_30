@@ -11,6 +11,7 @@ const {
   getAllSkins,
   getCurrentSkin,
   getBalance,
+  addStars,
 } = require('../models/users');
 const { authorize } = require('../utils/auths');
 const { parse } = require('../utils/json');
@@ -55,6 +56,19 @@ router.post('/update-score', authorize, async (req, res) => {
   } else {
     res.json({ success: false, message: 'Le nouveau score n est pas plus élevé' });
   }
+});
+
+// eslint-disable-next-line consistent-return
+router.post('/add-stars', authorize, async (req, res) => {
+  const { stars } = req.body;
+  const { username } = req.user;
+  const user = readOneUserFromUsername(username);
+  if (!user) {
+    return res.status(404).json({ message: 'Utilisateur non trouvé' });
+  }
+  console.log(stars, 'In router');
+  const response = await addStars(username, stars);
+  res.json(response);
 });
 
 router.get('/classement', (req, res) => {

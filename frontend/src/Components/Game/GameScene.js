@@ -8,7 +8,7 @@ import gameAudio from '../../assets/audio/gamemusic-6082.mp3';
 import gameOverAudio from '../../assets/audio/game-over-arcade-6435.mp3';
 import bulletAsset from '../../assets/bullets.png';
 import starAsset from '../../assets/star.png';
-import { getUserSessionData } from '../../utils/auth';
+import { getUserSessionData, isLoggedIn } from '../../utils/auth';
 
 const DUDE_KEY = 'dude';
 const BULLET_KEY = 'bullet';
@@ -192,24 +192,43 @@ class GameScene extends Phaser.Scene {
   // }
 
   // Envoyer le score au serveur avec le token JWT
-  try {
-    const response = await fetch('/api/users/update-score', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `${getUserSessionData().token}`
-      },
-      body: JSON.stringify({ newScore: this.scoreLabel.score })
-    });
-  
-    if (!response.ok) {
-      const errorDetails = await response.json();
-      console.error('Erreur lors de la mise à jour du score:', errorDetails.message);
+  if (isLoggedIn()){
+    const token = getUserSessionData()?.token;
+    try {
+      const response = await fetch('/api/users/update-score', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${token}`
+        },
+        body: JSON.stringify({ newScore: this.scoreLabel.score })
+      });
+    
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error('Erreur lors de la mise à jour du score:', errorDetails.message);
+      }
+    } catch (error) {
+      console.error('Erreur réseau:', error);
     }
-  } catch (error) {
-    console.error('Erreur réseau:', error);
+  
+  // Update stars
+
+    try {
+      const response = await fetch('/api/users/add-stars', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${token}`
+        },
+        body: JSON.stringify({ stars: this.starCount })
+      })
+      if (!response.ok) alert("Problème de sauvegarde des étoiles")
+    } catch (e){
+      console.error("Error")
+    }
   }
-  }
+}
 
   update() {
     if (this.gameOverFlag) {
