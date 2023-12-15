@@ -76,12 +76,6 @@ const ShopPage = async () => {
     const balanceDisplay = document.getElementById('balanceDisplay');
     balanceDisplay.innerHTML = `<span id="balanceNumber">${balance}</span> <img src="${star}">`;
 
-    // Animation to trigger when balance changes
-
-    balanceDisplay.addEventListener('click', () => {
-      balanceAnimation(balance, 2);
-    })
-
     // GET ALL THE SKINS TABLE WITH PRICES 
     async function getSkins(){
       const response = await fetch ('/api/users/get-skins')
@@ -202,6 +196,14 @@ const ShopPage = async () => {
 
     if(isLoggedIn()){
     let currentSkin = await getCurrentSkin();
+
+    if (currentSkin === 0){
+      button.style.opacity = "0.1";
+      button.innerText = 'Equipé';
+      button.style.cursor = 'not-allowed';
+      button.style.pointerEvents = 'none';
+    };
+
     let iLoop = 1;
     let skinToRender = `skin${iLoop}`;
     const innerCarousel = document.querySelector('.carousel-inner');
