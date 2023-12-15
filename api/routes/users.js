@@ -1,22 +1,76 @@
 const express = require('express');
+const {
+  readOneUserFromUsername,
+  updateUserData,
+  jsonDbPath,
+  defaultUsers,
+  readAllUsers,
+  unlockUserSkin,
+  checkUserSkin,
+  updateCurrentSkin,
+} = require('../models/users');
+const { authorize } = require('../utils/auths');
+const { parse } = require('../utils/json');
 
 const router = express.Router();
-const user = [
-  { name: 'Player1', points: 100 },
-  { name: 'Player2', points: 95 },
-  { name: 'Player3', points: 90 },
-  { name: 'Player4', points: 85 },
-  { name: 'Player5', points: 80 },
-  { name: 'Player6', points: 75 },
-  { name: 'Player7', points: 70 },
-  { name: 'Player8', points: 65 },
-  { name: 'Player9', points: 60 },
-  { name: 'Player10', points: 55 },
-];
 
 /* GET users listing. */
 router.get('/', (req, res) => {
-  res.json(user);
+  const users = readAllUsers();
+  res.json(users);
+});
+
+// eslint-disable-next-line consistent-return
+router.post('/update-score', authorize, async (req, res) => {
+  const { newScore } = req.body;
+  const { username } = req.user; // Récupérer le nom d'utilisateur du middleware 'authorize'
+
+  const user = readOneUserFromUsername(username);
+  if (!user) {
+    return res.status(404).json({ message: 'Utilisateur non trouvé' });
+  }
+
+  if (newScore > user.score) {
+    user.score = newScore;
+    await updateUserData(user);
+    res.json({ success: true, message: 'Score mis à jour' });
+  } else {
+    res.json({ success: false, message: 'Le nouveau score n est pas plus élevé' });
+  }
+});
+
+router.get('/classement', (req, res) => {
+  const usersleaderboard = parse(jsonDbPath, defaultUsers);
+  usersleaderboard.sort((a, b) => b.score - a.score);
+  res.json(usersleaderboard.map((user) => ({ username: user.username, score: user.score })));
+});
+
+router.post('/unlock-skin', authorize, async (req, res) => {
+  const { skinName } = req.body;
+  const { username } = req.user;
+
+  const result = await unlockUserSkin(username, skinName);
+  res.json(result);
+});
+
+// eslint-disable-next-line consistent-return
+router.get('/check-skin/:username/:skinName', authorize, (req, res) => {
+  const { username, skinName } = req.params;
+
+  const skinStatus = checkUserSkin(username, skinName);
+  if (skinStatus === null) {
+    return res.status(404).json({ message: 'Utilisateur ou skin non trouvé' });
+  }
+
+  res.json({ skinName, isUnlocked: skinStatus });
+});
+
+router.post('/change-current-skin', authorize, async (req, res) => {
+  const { skinNumber } = req.body;
+  const { username } = req.user; // Récupéré du token JWT
+
+  const result = await updateCurrentSkin(username, skinNumber);
+  res.json(result);
 });
 
 module.exports = router;

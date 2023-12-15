@@ -39,13 +39,31 @@ const RegisterPage = () => {
 const registerForm = document.getElementById('registerForm');
 
 
-    registerForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+registerForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-        const username = document.getElementById('username').value;
-        const birthdate = document.getElementById('birthdate').value;
-        const password = document.getElementById('password').value;
-        const confirm = document.getElementById('confirm').value;
+    const username = document.getElementById('username').value;
+    const birthdate = document.getElementById('birthdate').value;
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm').value;
+
+    // Vérification de la conformité du mot de passe
+    if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
+        alert('Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.');
+        return;
+    }
+
+    // Vérification de la date de naissance
+    const year = birthdate.split('-')[0];
+    if (year < 1900 || year > 2023) {
+        alert('L\'année de naissance doit être comprise entre 1900 et 2023.');
+        return;
+    }
+
+    if (password !== confirm) {
+        alert('Les mots de passe ne correspondent pas');
+        return;
+    }
 
         if (password !== confirm) {
             // eslint-disable-next-line no-alert
@@ -64,7 +82,7 @@ const registerForm = document.getElementById('registerForm');
             });
 
             if (response.ok) {
-                Navigate('/')
+                Navigate('/login')
             } else {
                 
                 console.error('Erreur d\'inscription');
