@@ -24,12 +24,12 @@ GET {{baseUrl}}/users/
 ### Unlock a skin
 
 POST {{baseUrl}}/users/unlock-skin
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZmZiIsImlhdCI6MTcwMjM4ODIzNywiZXhwIjoxNzg4Nzg4MjM3fQ.nKHR4p3WbIB85zMWgB0aOPt93USJmcPuTNBlTFYzApI
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtldjMiLCJpYXQiOjE3MDI1NjAxMjUsImV4cCI6MTc4ODk2MDEyNX0.J9d182LTJiJV0uJmtYHKBxt-G-ZE0WBXdzMn12gLKZA
 Content-Type: application/json
     
-    {
-        "skinName": "skin4"
-    }
+{
+    "skinName": "skin5"
+}
 
 ### Is Skin unlocked
 
@@ -45,3 +45,17 @@ Content-Type: application/json
 {
     "skinNumber": 4
 }
+
+### Get All skins
+GET {{baseUrl}}/users/get-skins
+Content-Type: application/json
+
+### Get current skin
+GET {{baseUrl}}/users/current-skin/kev3
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtldjMiLCJpYXQiOjE3MDI1NjAxMjUsImV4cCI6MTc4ODk2MDEyNX0.J9d182LTJiJV0uJmtYHKBxt-G-ZE0WBXdzMn12gLKZA
+Content-Type: application/json 
+
+### Get current skin
+GET {{baseUrl}}/users/get-balance/kev3
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtldjMiLCJpYXQiOjE3MDI1NjAxMjUsImV4cCI6MTc4ODk2MDEyNX0.J9d182LTJiJV0uJmtYHKBxt-G-ZE0WBXdzMn12gLKZA
+Content-Type: application/json 

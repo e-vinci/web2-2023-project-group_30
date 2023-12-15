@@ -248,3 +248,10 @@
     margin: 10px;
     margin-top: 0px;
 }
+
+#balanceDisplay{
+    position: absolute;
+    right: 10px;
+    width: fit-content;
+    font-size: xx-large;
+}

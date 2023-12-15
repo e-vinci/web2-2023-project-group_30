@@ -9,6 +9,7 @@ const lifetimeJwt = 24 * 60 * 60 * 1000; // in ms : 24 * 60 * 60 * 1000 = 24h
 const saltRounds = 10;
 
 const jsonDbPath = path.join(__dirname, '/../data/users.json');
+const skinsDb = path.join(__dirname, '/../data/skins.json');
 
 const defaultUsers = [
   {
@@ -27,6 +28,13 @@ const defaultUsers = [
     skin8: false,
   },
 ];
+
+function getSkinPrice(skin) {
+  const skins = JSON.stringify(parse(skinsDb, 0));
+  const skinPriceTable = JSON.parse(skins)[0];
+  console.log(skinPriceTable[skin]);
+  return skinPriceTable[skin];
+}
 
 async function login(username, password) {
   const userFound = readOneUserFromUsername(username);
@@ -145,20 +153,34 @@ function readAllUsers() {
   return users;
 }
 
-async function unlockUserSkin(username, skinName) {
+async function purchaseSkin(username, skinName) {
+  const amount = await getSkinPrice(skinName);
   const user = readOneUserFromUsername(username);
-  console.log(`Username: ${username}, SkinName: ${skinName}, SkinStatus: ${user[skinName]}`);
+  console.log(`Username: ${user.stars}, SkinName: ${skinName}, amount: ${amount}`);
 
   if (!user) {
     return { success: false, message: 'Utilisateur non trouvé' };
   }
-
-  if (user[skinName] === false) {
+  if (user.stars >= amount && user[skinName] === false) {
+    user.stars -= amount;
     user[skinName] = true;
     await updateUserData(user);
-    return { success: true, message: `${skinName} débloqué` };
+  } user.stars += amount;
+  return { success: false, message: 'Error : not enough stars or skin already owned' };
+}
+
+function getAllSkins() {
+  const skins = parse(skinsDb, 0);
+  return skins;
+}
+
+function getCurrentSkin(username) {
+  const user = readOneUserFromUsername(username);
+  if (!user) {
+    return { success: false, message: 'Utilisateur non trouvé' };
   }
-  return { success: false, message: 'Ce skin est déjà débloqué' };
+  const currentSkin = user.currentskin;
+  return currentSkin;
 }
 
 function checkUserSkin(username, skinName) {
@@ -166,6 +188,13 @@ function checkUserSkin(username, skinName) {
   if (!user) return null;
 
   return user[skinName];
+}
+
+function getBalance(username) {
+  const user = readOneUserFromUsername(username);
+  if (!user) return null;
+
+  return user.stars;
 }
 
 async function updateCurrentSkin(username, skinNumber) {
@@ -186,10 +215,13 @@ module.exports = {
   register,
   readOneUserFromUsername,
   updateUserData,
+  purchaseSkin,
+  getAllSkins,
   jsonDbPath,
   defaultUsers,
-  unlockUserSkin,
   readAllUsers,
   checkUserSkin,
+  getCurrentSkin,
+  getBalance,
   updateCurrentSkin,
 };

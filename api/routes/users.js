@@ -5,9 +5,12 @@ const {
   jsonDbPath,
   defaultUsers,
   readAllUsers,
-  unlockUserSkin,
   checkUserSkin,
   updateCurrentSkin,
+  purchaseSkin,
+  getAllSkins,
+  getCurrentSkin,
+  getBalance,
 } = require('../models/users');
 const { authorize } = require('../utils/auths');
 const { parse } = require('../utils/json');
@@ -20,6 +23,21 @@ router.get('/', (req, res) => {
   res.json(users);
 });
 
+/* Get all skins with prices */
+router.get('/get-skins', (req, res) => {
+  const skins = getAllSkins();
+  res.json(skins);
+});
+
+router.get('/current-skin/:username', (req, res) => {
+  const skin = getCurrentSkin(req.params.username);
+  res.json(skin);
+});
+
+router.get('/get-balance/:username', (req, res) => {
+  const balance = getBalance(req.params.username);
+  res.json(balance);
+});
 // eslint-disable-next-line consistent-return
 router.post('/update-score', authorize, async (req, res) => {
   const { newScore } = req.body;
@@ -49,7 +67,7 @@ router.post('/unlock-skin', authorize, async (req, res) => {
   const { skinName } = req.body;
   const { username } = req.user;
 
-  const result = await unlockUserSkin(username, skinName);
+  const result = await purchaseSkin(username, skinName);
   res.json(result);
 });
 
