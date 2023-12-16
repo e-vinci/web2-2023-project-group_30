@@ -1,3 +1,5 @@
+######### NORMAL OPERATION  ###########
+
 @baseUrl = http://localhost:3000
 
 ### Try to login an unknow user

@@ -1,3 +1,5 @@
+######### NORMAL OPERATION  ###########
+
 @baseUrl = http://localhost:3000
 
 ### Tyry to update a score
