@@ -20,3 +20,28 @@ Content-Type: application/json
 }
 ###2
 GET {{baseUrl}}/users/
+
+### Unlock a skin
+
+POST {{baseUrl}}/users/unlock-skin
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZmZiIsImlhdCI6MTcwMjM4ODIzNywiZXhwIjoxNzg4Nzg4MjM3fQ.nKHR4p3WbIB85zMWgB0aOPt93USJmcPuTNBlTFYzApI
+Content-Type: application/json
+    
+    {
+        "skinName": "skin4"
+    }
+
+### Is Skin unlocked
+
+GET {{baseUrl}}/users/check-skin/fff/skin4
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZmZiIsImlhdCI6MTcwMjM4ODIzNywiZXhwIjoxNzg4Nzg4MjM3fQ.nKHR4p3WbIB85zMWgB0aOPt93USJmcPuTNBlTFYzApI
+
+### Equip skin
+
+POST {{baseUrl}}/users/change-current-skin
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZmZiIsImlhdCI6MTcwMjM4ODIzNywiZXhwIjoxNzg4Nzg4MjM3fQ.nKHR4p3WbIB85zMWgB0aOPt93USJmcPuTNBlTFYzApI
+Content-Type: application/json
+
+{
+    "skinNumber": 4
+}

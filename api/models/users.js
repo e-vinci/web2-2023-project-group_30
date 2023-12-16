@@ -17,6 +17,14 @@ const defaultUsers = [
     password: bcrypt.hashSync('admin', saltRounds),
     birthdate: '1990-01-01',
     score: 0,
+    skin1: false,
+    skin2: false,
+    skin3: false,
+    skin4: false,
+    skin5: false,
+    skin6: false,
+    skin7: false,
+    skin8: false,
   },
 ];
 
@@ -41,7 +49,22 @@ async function login(username, password) {
   return authenticatedUser;
 }
 
+// Ajoutez cette fonction pour valider la date de naissance
+function isValidBirthdate(birthdate) {
+  const year = parseInt(birthdate.split('-')[0], 10);
+  return year >= 1900 && year <= 2023;
+}
+
+// Ajoutez cette fonction pour valider le mot de passe
+function isValidPassword(password) {
+  const regex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  return regex.test(password);
+}
+
 async function register(username, password, birthdate) {
+  if (!isValidBirthdate(birthdate) || !isValidPassword(password)) {
+    return { success: false, message: 'Date de naissance ou mot de passe invalide' };
+  }
   const userFound = readOneUserFromUsername(username);
   if (userFound) return undefined;
 
@@ -79,7 +102,18 @@ async function createOneUser(username, password, birthdate) {
     username,
     password: hashedPassword,
     birthdate,
-    score: 0,
+    bestscore: 0,
+    stars: 0,
+    skin0: true,
+    skin1: false,
+    skin2: false,
+    skin3: false,
+    skin4: false,
+    skin5: false,
+    skin6: false,
+    skin7: false,
+    skin8: false,
+    currentskin: 0,
   };
 
   users.push(createdUser);
@@ -110,6 +144,43 @@ function readAllUsers() {
   const users = parse(jsonDbPath, defaultUsers);
   return users;
 }
+
+async function unlockUserSkin(username, skinName) {
+  const user = readOneUserFromUsername(username);
+  console.log(`Username: ${username}, SkinName: ${skinName}, SkinStatus: ${user[skinName]}`);
+
+  if (!user) {
+    return { success: false, message: 'Utilisateur non trouvé' };
+  }
+
+  if (user[skinName] === false) {
+    user[skinName] = true;
+    await updateUserData(user);
+    return { success: true, message: `${skinName} débloqué` };
+  }
+  return { success: false, message: 'Ce skin est déjà débloqué' };
+}
+
+function checkUserSkin(username, skinName) {
+  const user = readOneUserFromUsername(username);
+  if (!user) return null;
+
+  return user[skinName];
+}
+
+async function updateCurrentSkin(username, skinNumber) {
+  const user = readOneUserFromUsername(username);
+  if (!user) return { success: false, message: 'Utilisateur non trouvé' };
+
+  if (user[`skin${skinNumber}`] !== true) {
+    return { success: false, message: 'Skin non débloqué' };
+  }
+
+  user.currentskin = skinNumber;
+  await updateUserData(user);
+  return { success: true, message: `Current skin mis à jour vers skin${skinNumber}` };
+}
+
 module.exports = {
   login,
   register,
@@ -117,5 +188,8 @@ module.exports = {
   updateUserData,
   jsonDbPath,
   defaultUsers,
+  unlockUserSkin,
   readAllUsers,
+  checkUserSkin,
+  updateCurrentSkin,
 };

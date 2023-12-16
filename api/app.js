@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const helmet = require('helmet');
 
 const corsOptions = {
   origin: ['http://localhost:8080', 'https://e-vinci.github.io'],
@@ -16,6 +17,7 @@ const authsRouter = require('./routes/auths');
 
 const app = express();
 
+app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
