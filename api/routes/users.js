@@ -5,9 +5,13 @@ const {
   jsonDbPath,
   defaultUsers,
   readAllUsers,
-  unlockUserSkin,
   checkUserSkin,
   updateCurrentSkin,
+  purchaseSkin,
+  getAllSkins,
+  getCurrentSkin,
+  getBalance,
+  addStars,
 } = require('../models/users');
 const { authorize } = require('../utils/auths');
 const { parse } = require('../utils/json');
@@ -20,6 +24,21 @@ router.get('/', (req, res) => {
   res.json(users);
 });
 
+/* Get all skins with prices */
+router.get('/get-skins', (req, res) => {
+  const skins = getAllSkins();
+  res.json(skins);
+});
+
+router.get('/current-skin/:username', (req, res) => {
+  const skin = getCurrentSkin(req.params.username);
+  res.json(skin);
+});
+
+router.get('/get-balance/:username', (req, res) => {
+  const balance = getBalance(req.params.username);
+  res.json(balance);
+});
 // eslint-disable-next-line consistent-return
 router.post('/update-score', authorize, async (req, res) => {
   const { newScore } = req.body;
@@ -30,13 +49,26 @@ router.post('/update-score', authorize, async (req, res) => {
     return res.status(404).json({ message: 'Utilisateur non trouvé' });
   }
 
-  if (newScore > user.score) {
-    user.score = newScore;
+  if (newScore > user.bestscore) {
+    user.bestscore = newScore;
     await updateUserData(user);
     res.json({ success: true, message: 'Score mis à jour' });
   } else {
     res.json({ success: false, message: 'Le nouveau score n est pas plus élevé' });
   }
+});
+
+// eslint-disable-next-line consistent-return
+router.post('/add-stars', authorize, async (req, res) => {
+  const { stars } = req.body;
+  const { username } = req.user;
+  const user = readOneUserFromUsername(username);
+  if (!user) {
+    return res.status(404).json({ message: 'Utilisateur non trouvé' });
+  }
+  console.log(stars, 'In router');
+  const response = await addStars(username, stars);
+  res.json(response);
 });
 
 router.get('/classement', (req, res) => {
@@ -49,7 +81,7 @@ router.post('/unlock-skin', authorize, async (req, res) => {
   const { skinName } = req.body;
   const { username } = req.user;
 
-  const result = await unlockUserSkin(username, skinName);
+  const result = await purchaseSkin(username, skinName);
   res.json(result);
 });
 

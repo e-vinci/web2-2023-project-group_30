@@ -1,7 +1,7 @@
 // import ClearPage from '../../utils/render'
 // Function to fetch player data from the API
 const fetchPlayers = async () => {
-  const response = await fetch('/api/users/');
+  const response = await fetch(`${process.env.API_BASE_URL}/users/`);
   const players = await response.json();
   return players;
 };

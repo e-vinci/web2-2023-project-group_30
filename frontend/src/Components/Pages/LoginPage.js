@@ -35,7 +35,7 @@ const LoginPage = () => {
     const password = document.getElementById('password').value;
   
     try {
-      const response = await fetch('/api/auths/login', {
+      const response = await fetch(`${process.env.API_BASE_URL}/auths/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

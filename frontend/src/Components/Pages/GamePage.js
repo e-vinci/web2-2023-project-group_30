@@ -6,6 +6,7 @@ import CommandsPage from '../Modals/CommandsPage';
 import PauseMenu from '../Modals/PauseMenu';
 import GameOver from '../Modals/GameOver';
 import Navigate from '../Router/Navigate';
+import { getUserSessionData, isLoggedIn } from '../../utils/auth';
 
 // import { clearPage } from '../../utils/render';
 // import CommandsPage from "./CommandsPage";
@@ -13,7 +14,7 @@ import Navigate from '../Router/Navigate';
 
 let game;
 
-const GamePage = () => {
+const GamePage = async () => {
   const phaserGame = `
 <div id="gamePageDiv" >
   <div class="modal fade" id="rulesAndCommandsDiv">
@@ -49,6 +50,29 @@ const GamePage = () => {
   if (pauseButtonPosition < 0) pauseButtonPosition = 0;
   pauseButton.style.right = `${pauseButtonPosition + 5}px`;
 
+  // Set the skin to the current one
+
+  let scene = new GameScene();
+
+  if (isLoggedIn()){
+    const username = getUserSessionData()?.username;
+
+    // eslint-disable-next-line no-inner-declarations
+    async function getCurrentSkin(){
+      const response = await fetch(`${process.env.API_BASE_URL}/users/current-skin/${username}`)
+      const skin = await response.json();
+      return skin;
+    }
+  
+    const skinID = await getCurrentSkin();
+
+    scene = new GameScene(skinID);
+  }
+
+  window.addEventListener('popstate', () => {
+    game.destroy();
+  })
+
   const config = {
     type: Phaser.AUTO,
     width: 1200,
@@ -60,15 +84,14 @@ const GamePage = () => {
         debug: false,
       },
     },
-    scene: [GameScene],
+    scene: [scene],
     //  parent DOM element into which the canvas created by the renderer will be injected.
     parent: 'gameDiv',
   };
-
+  
   if (game) game.destroy(true);
   game = new Phaser.Game(config);
   game.pause();
-
   // there could be issues when a game was quit (events no longer working)
   // therefore destroy any started game prior to recreate it
 
@@ -79,7 +102,6 @@ const GamePage = () => {
 
   function pauseGame(){
     game.pause();
-    console.log(game);
     game.sound.context.suspend();
   }
   
@@ -178,7 +200,10 @@ document.getElementById('gameOverExit')?.addEventListener('click', () => {
   
   document.addEventListener('keyup', (e) => {
     // eslint-disable-next-line no-underscore-dangle
-    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false) pauseModal.toggle();
+    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false) {
+      pauseModal.show();
+      pauseGame();
+    }
   })
   if (localStorage.getItem('disableRules') === 'true'){
     game.resume();

@@ -73,7 +73,7 @@ registerForm.addEventListener('submit', async (event) => {
 
         try {
             
-            const response = await fetch('/api/auths/register', {
+            const response = await fetch(`${process.env.API_BASE_URL}/auths/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
