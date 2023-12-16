@@ -248,3 +248,46 @@
     margin: 10px;
     margin-top: 0px;
 }
+
+.border-flash-green {
+    border: 5px solid #00FF00; 
+    padding: 10px;
+    border-radius: 10px; 
+}
+
+.profile-container {
+    background-color: rgba(0, 0, 0, 0.8); /* fond semi-transparent noir */
+    border: 3px solid green; /* bordure verte */
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+  }
+  
+  .profile-container h1, .profile-container h2, .profile-container h3 {
+    color: white;
+  }
+  
+  .profile-title {
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  
+  .profile-title::after {
+    content: '';
+    display: block;
+    height: 3px;
+    background-color: green;
+    width: 50%;
+    margin: 0 auto; /* Centre la barre */
+    margin-top: 5px;
+  }
+  
+  .profile-info {
+    color: white;
+    text-align: center;
+  }
+  
+  
+  
