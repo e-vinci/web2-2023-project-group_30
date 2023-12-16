@@ -23,7 +23,7 @@ const ProfilePage = async () => {
               <h2>Nom d'utilisateur: ${username}</h2>
               <h3>Date de naissance: ${birthdate}</h3>
               <h3>Score: ${bestscore}</h3>
-              <h3>Étoiles: ${stars}</h3> <!-- Ajouté les étoiles ici -->
+              <h3>Étoiles: ${stars}</h3> 
             </div>
           </div>
         </div>

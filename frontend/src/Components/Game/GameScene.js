@@ -33,8 +33,7 @@ class GameScene extends Phaser.Scene {
     // initialize score
     this.scoreLabel = undefined;
     this.score = 0;
-    // this.scoreIncrement = 10; // Increment value for the score
-    // this.scoreDelay = 1000;
+
   }
 
   preload() {
@@ -54,25 +53,29 @@ class GameScene extends Phaser.Scene {
     // player
     this.player = this.physics.add.sprite(80, 400, DUDE_KEY); // Adjust player starting position
     this.player.setCollideWorldBounds(true);
+
     // Setting a smaller hitbox for the player sprite
     this.player.setSize(50, 12); 
 
     // obstacles
     this.obstacles = this.physics.add.group();
+
     // stars
     this.stars = this.physics.add.group();
 
     // eslint-disable-next-line no-plusplus
     this.createStars();
+
      // Handle collision between player and stars
-     this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
+    this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
      // Create a label to display the collected stars count
-     this.starLabel = this.add.text(16, 70, 'Stars: 0', { fontSize: '20px', fill: '#FFF', fontFamily: 'Pixelify Sans' })
-     
+    this.starLabel = this.add.text(16, 70, 'Stars: 0', { fontSize: '20px', fill: '#FFF', fontFamily: 'Pixelify Sans' })
+    
+    // choose the number of obstacles to be created
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < 20; i++) {
-      // choose the number of obstacles to be created
+
       const obstacle = this.obstacles.create(
         Phaser.Math.Between(400, 4000), // Place obstacles outside the game scene
         Phaser.Math.Between(0, 900),  // Place obstacles anywhere on the y-axis
@@ -83,8 +86,6 @@ class GameScene extends Phaser.Scene {
     }
     this.music = this.sound.add('music');
     this.music.play({ loop: true });
-
-    // this.initialPlayerX = this.player.x;
 
     this.scoreLabel = this.createScoreLabel(16, 16, this.score);
 
@@ -98,7 +99,8 @@ class GameScene extends Phaser.Scene {
     });
 
     this.cursors = this.input.keyboard.createCursorKeys(); 
-    
+
+    // movement of stars and obstacles
     this.obstacleAndStarMoveEvent = this.time.addEvent({
       delay: Math.min(this.obstacleDelay, this.starDelay),
       callback: () => {
@@ -109,6 +111,7 @@ class GameScene extends Phaser.Scene {
       loop: true
     });
     
+    // bullets physics
     this.bullets = this.physics.add.group({
       key: BULLET_KEY,
       repeat: 9,
@@ -121,11 +124,13 @@ class GameScene extends Phaser.Scene {
       bullet.setActive(false).setVisible(false);
     });
 
+    // bullet ready label
     this.bulletReadyText = this.add.text(16, 50, 'Bullet Ready', {
       fontSize: '20px',
       fill: '#00FF00',
       fontFamily: 'Pixelify Sans',
     });
+
     this.lastFiredTime = 0; // Time when the last bullet was fired
     this.fireDelay = 2000; // Delay between consecutive shots in milliseconds
 
@@ -156,6 +161,7 @@ class GameScene extends Phaser.Scene {
     this.player.setTint(0xff0000);
     this.gameOverFlag = true;
 
+    // show gameOver screen
     const gameOverScreen = document.getElementById('gameOverScreen');
     gameOverScreen.style.display = "grid";
     const pointsDisplay = document.getElementById('pointsDisplay');
@@ -203,6 +209,8 @@ class GameScene extends Phaser.Scene {
       return;
     }
     const sceneHeight = 735;
+
+    // what keyboard does
     if (this.cursors.up.isDown && this.player.y > 0) {
       this.player.setVelocityY(-300);
     } else if (
@@ -216,6 +224,7 @@ class GameScene extends Phaser.Scene {
     if (this.cursors.space.isDown) {
       this.tryShootBullet();
     }
+
     // Update bullet ready text
     const currentTime = this.time.now;
     const timeSinceLastShot = currentTime - this.lastFiredTime;
@@ -260,7 +269,7 @@ class GameScene extends Phaser.Scene {
       );
       star.setCollideWorldBounds(false);
   }
- 
+
   createObscacles() {
     const obstacle = this.obstacles.create(
       Phaser.Math.Between(1200,1400),
@@ -291,7 +300,6 @@ class GameScene extends Phaser.Scene {
     this.starCount += 10;
     this.starLabel.setText(`Stars: ${this.starCount}`);
     this.createStars();
-    // You can add any other logic related to collecting stars here
   }
 
   tryShootBullet() {
