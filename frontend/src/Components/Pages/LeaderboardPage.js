@@ -9,7 +9,7 @@ const fetchPlayers = async () => {
 const LeaderboardPage = async () => {
   try {
     const players = await fetchPlayers();
-    players.sort((a, b) => b.score - a.score);
+    players.sort((a, b) => b.bestscore - a.bestscore);
 
     const main = document.querySelector('main');
     main.innerHTML = `
