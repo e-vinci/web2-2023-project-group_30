@@ -21,6 +21,7 @@ const ProfilePage = async () => {
         <div class="row justify-content-center">
           <div class="profile">
             <h1 class="text-center">Profile</h1>
+            <img src="https://picsum.photos/200" alt="Profile picture" class="rounded-circle mx-auto d-block">
             <h2 class="text-center">Username: ${username}</h2>
             <h3 class="text-center">Date de naissance: ${birthdate}</h3>
             <h3 class="text-center">Score: ${score}</h3>
