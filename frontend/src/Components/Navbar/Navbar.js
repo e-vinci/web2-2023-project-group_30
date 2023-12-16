@@ -7,24 +7,24 @@ const Navbar = () => {
 
   // Fonction pour générer le bouton de connexion/déconnexion
   // Fonction pour générer le bouton de connexion/déconnexion
-function logButton() {
-  if (isLoggedIn()) {
-    return `
+  function logButton() {
+    if (isLoggedIn()) {
+      return `
     <a class="nav-link text-white fs-4" href="#" id="logout1">Se déconnecter</a>
       <a class="nav-link text-white fs-4" href="#" id="profile" data-uri="/profile">Mon Profil</a>
       `;
-  }
-  return `
+    }
+    return `
     <a class="nav-link text-white fs-4" href="#" data-uri="/login">Se connecter</a>
     ${register()}
   `;
-}
-
-  
+  }
 
   // Fonction pour générer le bouton d'inscription
   function register() {
-    return !isLoggedIn() ? `<a class="nav-link text-white fs-4" href="#" data-uri="/register">S'inscrire</a>` : '';
+    return !isLoggedIn()
+      ? `<a class="nav-link text-white fs-4" href="#" data-uri="/register">S'inscrire</a>`
+      : '';
   }
 
   // Fonction pour gérer la déconnexion
@@ -33,7 +33,6 @@ function logButton() {
     logoutuser();
     reloadNavbar();
     reloadHomePage();
-    
   }
 
   // Fonction pour recharger dynamiquement la navbar
@@ -41,11 +40,10 @@ function logButton() {
     Navbar();
     attachEventListeners();
   }
-  
 
   // Fonction pour attacher les écouteurs d'événements
   function attachEventListeners() {
-    document.querySelectorAll('[data-uri]').forEach(link => {
+    document.querySelectorAll('[data-uri]').forEach((link) => {
       link.addEventListener('click', (event) => {
         const uri = event.target.getAttribute('data-uri');
         if (uri) Navigate(uri);

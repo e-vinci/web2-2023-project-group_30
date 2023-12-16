@@ -1,9 +1,9 @@
 import spaceBtn from '../../assets/commandsSpace.svg';
 import upBtn from '../../assets/commandsUp.svg';
-import downBtn from '../../assets/commandsDown.svg'
+import downBtn from '../../assets/commandsDown.svg';
 
 const RulesAndCommands = () => {
-   const  htmlCommands = `
+  const htmlCommands = `
    <div class="modal-body">
    <h2>Commandes du Jeu</h2>
    <p>Dans ce jeu, vous contrôlez votre personnage à l'aide des touches directionnelles.</p>
@@ -30,6 +30,6 @@ const RulesAndCommands = () => {
 </div>
 `;
   return htmlCommands;
-  };
+};
 
-  export default RulesAndCommands;
+export default RulesAndCommands;

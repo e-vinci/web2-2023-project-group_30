@@ -11,7 +11,8 @@ function onMenuClick() {
   const main = document.querySelector('main');
 
   main.addEventListener('click', (e) => {
-    if (e.target.type !== 'submit' && e.target.type !== 'checkbox' && !e.target.closest('#logout')) e.preventDefault();
+    if (e.target.type !== 'submit' && e.target.type !== 'checkbox' && !e.target.closest('#logout'))
+      e.preventDefault();
     const menuItemClicked = e.target;
     const uri = menuItemClicked?.dataset?.uri;
     if (uri) {

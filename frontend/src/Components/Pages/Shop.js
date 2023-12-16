@@ -12,8 +12,8 @@ import skin8 from '../../assets/Ship8.png';
 import star from '../../assets/star.png';
 
 const ShopPage = () => {
-    const main = document.querySelector('main');
-    main.innerHTML = `
+  const main = document.querySelector('main');
+  main.innerHTML = `
       <div class="container d-flex justify-content-center" id="shopPage">
 
           <div id="carouselShopItems" class="carousel slide">
@@ -108,77 +108,79 @@ const ShopPage = () => {
       </div>
     `;
 
-    console.log(getUserSessionData());
+  console.log(getUserSessionData());
 
-    let carouselShopItems = document.getElementById('carouselShopItems');
-    const itemImg = document.querySelectorAll('.shopItemImg');
-    const animatedImage = anime({
-      targets:itemImg,
-      loop:true,
-      translateY: [
-        { value: '-20px', duration: 500, easing: 'easeInOutQuad' },
-        { value: '20', duration: 500, easing: 'easeInOutQuad' },
-      ],
-      direction: 'alternate', 
-      delay: 1500
-    });
+  let carouselShopItems = document.getElementById('carouselShopItems');
+  const itemImg = document.querySelectorAll('.shopItemImg');
+  const animatedImage = anime({
+    targets: itemImg,
+    loop: true,
+    translateY: [
+      { value: '-20px', duration: 500, easing: 'easeInOutQuad' },
+      { value: '20', duration: 500, easing: 'easeInOutQuad' },
+    ],
+    direction: 'alternate',
+    delay: 1500,
+  });
 
-    animatedImage.play();
+  animatedImage.play();
 
-    // eslint-disable-next-line no-unused-vars
-    carouselShopItems = new Carousel(carouselShopItems, {
-      keyboard: false
-    });
+  // eslint-disable-next-line no-unused-vars
+  carouselShopItems = new Carousel(carouselShopItems, {
+    keyboard: false,
+  });
 
-    const button = document.getElementById('shopPurchaseBtn');
-    console.log(isLoggedIn())
+  const button = document.getElementById('shopPurchaseBtn');
+  console.log(isLoggedIn());
 
-    if(isLoggedIn()){
-      const nextPrevious = document.querySelectorAll('.shopInteractionBtn');
-      nextPrevious.forEach((btn) => {
-      
+  if (isLoggedIn()) {
+    const nextPrevious = document.querySelectorAll('.shopInteractionBtn');
+    nextPrevious.forEach((btn) => {
       btn.addEventListener('click', async () => {
         const btnClicked = btn.dataset.bsSlide;
         let skinID = document.getElementsByClassName('active').item(1).id;
         skinID = parseInt(skinID, 10);
 
-        if(btnClicked === 'prev') {
+        if (btnClicked === 'prev') {
           skinID -= 1;
           if (skinID < 0) skinID = 7;
-        } else {  
-            skinID += 1;
-            if (skinID > 7) skinID = 0;
-          };
+        } else {
+          skinID += 1;
+          if (skinID > 7) skinID = 0;
+        }
         let isUnlocked;
         let skinData;
         try {
-          const response = await fetch(`/api/users/check-skin/${getUserSessionData().username}/skin${skinID}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: getUserSessionData().token
-            }
-          });
+          const response = await fetch(
+            `/api/users/check-skin/${getUserSessionData().username}/skin${skinID}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: getUserSessionData().token,
+              },
+            },
+          );
           skinData = await response.json();
           console.log('test ', isUnlocked.isUnlocked);
         } catch {
-          console.error('CANNOT GET SKIN STATUS OF THE SKIN')
+          console.error('CANNOT GET SKIN STATUS OF THE SKIN');
         }
 
-        button.style.opacity = "0.1";
-        button.style.cursor = "wait";
+        button.style.opacity = '0.1';
+        button.style.cursor = 'wait';
         setTimeout(() => {
-          button.style.opacity = "1";
-          button.style.cursor = "pointer";
+          button.style.opacity = '1';
+          button.style.cursor = 'pointer';
         }, 700);
 
         isUnlocked = skinData?.isUnlocked;
 
-        if (isUnlocked){
-          console.log(isUnlocked)
-          const container = document.getElementById(`${skinID}`)
-          const title = container.querySelector('.shopItemTitle')
-          title.innerHTML = 'Acquis &#x2713;'
+        if (isUnlocked) {
+          console.log(isUnlocked);
+          const container = document.getElementById(`${skinID}`);
+          const title = container.querySelector('.shopItemTitle');
+          title.innerHTML = 'Acquis &#x2713;';
           button.innerHTML = 'Equiper';
         } else {
           button.innerHTML = 'Acheter';
@@ -186,33 +188,31 @@ const ShopPage = () => {
 
         button.addEventListener('click', async () => {
           await fetch('/api/users/change-current-skin', {
-             method: 'POST',
-             headers: {
-               'Content-Type': 'application/json',
-               Authorization: getUserSessionData().token
-             },
-             body: JSON.stringify({
-               "skinNumber": skinID
-             })
-           })
-           .then(response => {
-             if (!response.ok) throw new Error('Error in the purchasing of the skin')
-             return response.json();
-           })
-           .then ((e) => {
-             console.log(e)
-           })
-           .catch (console.error('ERROR IN THE PURCHASING OF THE SKIN'));
-       });
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: getUserSessionData().token,
+            },
+            body: JSON.stringify({
+              skinNumber: skinID,
+            }),
+          })
+            .then((response) => {
+              if (!response.ok) throw new Error('Error in the purchasing of the skin');
+              return response.json();
+            })
+            .then((e) => {
+              console.log(e);
+            })
+            .catch(console.error('ERROR IN THE PURCHASING OF THE SKIN'));
+        });
       });
     });
-    } else {
-      button.innerHTML = 'Connectez-vous';
-      button.style.border = "0px";
-      button.dataset.uri = '/login';
-    } 
+  } else {
+    button.innerHTML = 'Connectez-vous';
+    button.style.border = '0px';
+    button.dataset.uri = '/login';
+  }
 };
 
-  
-  export default ShopPage;
-  
+export default ShopPage;

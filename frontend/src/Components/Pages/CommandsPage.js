@@ -1,5 +1,5 @@
 const CommandsPage = () => {
-   const  htmlCommands = `
+  const htmlCommands = `
    <div class="modal-body">
       <h1>Commandes du Jeu</h1>
       <p>
@@ -26,6 +26,6 @@ const CommandsPage = () => {
    </div>
 `;
   return htmlCommands;
-  };
+};
 
-  export default CommandsPage;
+export default CommandsPage;

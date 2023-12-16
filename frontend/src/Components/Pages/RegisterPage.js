@@ -1,4 +1,4 @@
-import Navigate from "../Router/Navigate";
+import Navigate from '../Router/Navigate';
 
 const RegisterPage = () => {
   const main = document.querySelector('main');
@@ -35,11 +35,10 @@ const RegisterPage = () => {
           </div>
       </div>
   `;
-  
-const registerForm = document.getElementById('registerForm');
 
+  const registerForm = document.getElementById('registerForm');
 
-registerForm.addEventListener('submit', async (event) => {
+  registerForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const username = document.getElementById('username').value;
@@ -49,51 +48,49 @@ registerForm.addEventListener('submit', async (event) => {
 
     // Vérification de la conformité du mot de passe
     if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
-        alert('Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.');
-        return;
+      alert('Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.');
+      return;
     }
 
     // Vérification de la date de naissance
     const year = birthdate.split('-')[0];
     if (year < 1900 || year > 2023) {
-        alert('L\'année de naissance doit être comprise entre 1900 et 2023.');
-        return;
+      alert("L'année de naissance doit être comprise entre 1900 et 2023.");
+      return;
     }
 
     if (password !== confirm) {
-        alert('Les mots de passe ne correspondent pas');
-        return;
+      alert('Les mots de passe ne correspondent pas');
+      return;
     }
 
-        if (password !== confirm) {
-            // eslint-disable-next-line no-alert
-            alert('Les mots de passe ne correspondent pas');
-            return;
-        }
+    if (password !== confirm) {
+      // eslint-disable-next-line no-alert
+      alert('Les mots de passe ne correspondent pas');
+      return;
+    }
 
-        try {
-            
-            const response = await fetch('/api/auths/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password, birthdate}),  
-            });
+    try {
+      const response = await fetch('/api/auths/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password, birthdate }),
+      });
 
-            if (response.ok) {
-                Navigate('/login')
-            } else {
-                
-                console.error('Erreur d\'inscription');
-                // eslint-disable-next-line no-alert
-                alert('Erreur lors de l\'inscription');
-            }
-        } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error('Erreur:', error);
-        }
-    });
-}
+      if (response.ok) {
+        Navigate('/login');
+      } else {
+        console.error("Erreur d'inscription");
+        // eslint-disable-next-line no-alert
+        alert("Erreur lors de l'inscription");
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Erreur:', error);
+    }
+  });
+};
 
 export default RegisterPage;

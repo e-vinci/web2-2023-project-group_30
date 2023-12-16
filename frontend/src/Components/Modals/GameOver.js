@@ -1,5 +1,3 @@
-
-
 const GameOver = `
 <div id="gameOverScreen" style="position: absolute; width: 1200px; height: 700px;" class="hidden">
     <h2 class="gameOverText" id="GameOver">Game Over</h2>
@@ -10,6 +8,6 @@ const GameOver = `
     <button id="gameOverRestart" data-uri="/game">Recommencer</button>
     <button id="gameOverExit">Quitter</button>
 </div>
-`
+`;
 
 export default GameOver;

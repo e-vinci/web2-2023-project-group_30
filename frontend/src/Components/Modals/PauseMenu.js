@@ -1,5 +1,4 @@
-const PauseMenu =  
-    `
+const PauseMenu = `
 <div class="modal fade" id="pauseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="pauseMenuModal">
@@ -40,6 +39,6 @@ const PauseMenu =
         </div>
     </div>
 </div>    
-    `
+    `;
 
 export default PauseMenu;

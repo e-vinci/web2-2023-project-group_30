@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 // eslint-disable-next-line no-unused-vars, import/no-duplicates
-import {Modal} from 'bootstrap'
+import { Modal } from 'bootstrap';
 import GameScene from '../Game/GameScene';
 import CommandsPage from '../Modals/CommandsPage';
 import PauseMenu from '../Modals/PauseMenu';
@@ -45,7 +45,7 @@ const GamePage = () => {
 
   const mainWidth = window.innerWidth;
   const pauseButton = document.getElementById('gamePauseButton');
-  let pauseButtonPosition = ((mainWidth - 1200) / 2);
+  let pauseButtonPosition = (mainWidth - 1200) / 2;
   if (pauseButtonPosition < 0) pauseButtonPosition = 0;
   pauseButton.style.right = `${pauseButtonPosition + 5}px`;
 
@@ -75,41 +75,40 @@ const GamePage = () => {
   const closeRulesButton = document.getElementById('closeRulesButton');
   closeRulesButton.addEventListener('click', () => {
     game.resume();
-  })
+  });
 
-  function pauseGame(){
+  function pauseGame() {
     game.pause();
     console.log(game);
     game.sound.context.suspend();
   }
-  
 
   // Onclick of the restart button
-  const restartButton = document.getElementById("restartButton");
-  const confToRestartDiv = document.getElementById("confToRestartDiv");
-  
+  const restartButton = document.getElementById('restartButton');
+  const confToRestartDiv = document.getElementById('confToRestartDiv');
+
   restartButton.addEventListener('click', () => {
     restartButton.style.display = 'none';
     confToRestartDiv.style.display = 'block';
   });
 
   const restartReturnButton = document.getElementById('confRestartReturnButton');
-    
+
   restartReturnButton.addEventListener('click', () => {
     restartButton.style.display = 'inherit';
     confToRestartDiv.style.display = 'none';
   });
 
   // Onclick of the exit button
-  const exitButton = document.getElementById("exitButton");
-  const confToExitDiv = document.getElementById("confToExitDiv");
+  const exitButton = document.getElementById('exitButton');
+  const confToExitDiv = document.getElementById('confToExitDiv');
 
   exitButton.addEventListener('click', () => {
     exitButton.style.display = 'none';
     confToExitDiv.style.display = 'block';
   });
 
-  const exitReturnButton = document.getElementById("confExitReturnButton");
+  const exitReturnButton = document.getElementById('confExitReturnButton');
 
   exitReturnButton.addEventListener('click', () => {
     exitButton.style.display = 'inherit';
@@ -124,18 +123,18 @@ const GamePage = () => {
     const checkbox = document.getElementById('check');
     const valueCheckbox = checkbox.checked;
     localStorage.setItem('disableRules', valueCheckbox);
-  })
+  });
 
   // Pause the game upon click of pause button
 
   pauseButton.addEventListener('click', () => {
     pauseGame();
-  })
+  });
 
   // Resume, upon click of reprendre, and closing of modal
 
-  const continueButton = document.getElementById("continueButton");
-  const closeMenuButton = document.getElementById("pauseMenuCloseButton");
+  const continueButton = document.getElementById('continueButton');
+  const closeMenuButton = document.getElementById('pauseMenuCloseButton');
 
   continueButton.addEventListener('click', () => {
     game.resume();
@@ -149,43 +148,43 @@ const GamePage = () => {
 
   const pauseModal = new Modal(document.getElementById('pauseModal'), {
     keyboard: false,
-    backdrop: false
+    backdrop: false,
   });
 
   // eslint-disable-next-line no-unused-vars
   const rulesAndCommandsDiv = new Modal(document.getElementById('rulesAndCommandsDiv'), {
-    keyboard: false, 
-    backdrop: false
+    keyboard: false,
+    backdrop: false,
   });
 
-  // Show commands 
+  // Show commands
   const commandsButton = document.getElementById('commandsButton');
   commandsButton.addEventListener('click', () => {
     const check = document.getElementById('check');
     const label = document.getElementById('label');
-    check.style.display = 'none'
-    label.style.display = 'none'
+    check.style.display = 'none';
+    label.style.display = 'none';
   });
 
   // Game over
   document.getElementById('gameOverRestart')?.addEventListener('click', () => {
     Navigate('/game');
-})
+  });
 
-document.getElementById('gameOverExit')?.addEventListener('click', () => {
-  Navigate('/');
-})
-  
+  document.getElementById('gameOverExit')?.addEventListener('click', () => {
+    Navigate('/');
+  });
+
   document.addEventListener('keyup', (e) => {
     // eslint-disable-next-line no-underscore-dangle
-    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false) pauseModal.toggle();
-  })
-  if (localStorage.getItem('disableRules') === 'true'){
+    if (e.key === 'Escape' && rulesAndCommandsDiv._isShown === false) pauseModal.toggle();
+  });
+  if (localStorage.getItem('disableRules') === 'true') {
     game.resume();
   } else {
     rulesAndCommandsDiv.show();
   }
-  document.querySelector('*').style.overflowY = "scroll";
+  document.querySelector('*').style.overflowY = 'scroll';
 };
 
 export default GamePage;

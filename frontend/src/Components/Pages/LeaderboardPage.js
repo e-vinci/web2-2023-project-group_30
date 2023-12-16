@@ -26,13 +26,18 @@ const LeaderboardPage = async () => {
                 </tr>
               </thead>
               <tbody>
-                ${players.slice(0, 10).map((player, index) => `
+                ${players
+                  .slice(0, 10)
+                  .map(
+                    (player, index) => `
                   <tr>
                     <td class="text-white bg-transparent">${index + 1}</td>
                     <td class="text-white bg-transparent">${player.username}</td>
                     <td class="text-white bg-transparent">${player.bestscore}</td>
                   </tr>
-                `).join('')}
+                `,
+                  )
+                  .join('')}
               </tbody>
             </table>
           </div>
@@ -46,8 +51,3 @@ const LeaderboardPage = async () => {
 };
 
 export default LeaderboardPage;
-
-
-
-
-

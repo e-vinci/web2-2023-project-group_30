@@ -11,7 +11,7 @@ const ProfilePage = async () => {
   try {
     const players = await fetchPlayers();
     const currentUser = getUserSessionData().username;
-    const userData = players.find(player => player.username === currentUser);
+    const userData = players.find((player) => player.username === currentUser);
     const { username, birthdate, bestscore, stars } = userData; // Assurez-vous d'avoir la propriété 'stars' dans vos données utilisateur
 
     const profileHTML = `
@@ -37,4 +37,3 @@ const ProfilePage = async () => {
 };
 
 export default ProfilePage;
-
