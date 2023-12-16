@@ -6,7 +6,7 @@ import CommandsPage from '../Modals/CommandsPage';
 import PauseMenu from '../Modals/PauseMenu';
 import GameOver from '../Modals/GameOver';
 import Navigate from '../Router/Navigate';
-import { getUserSessionData } from '../../utils/auth';
+import { getUserSessionData, isLoggedIn } from '../../utils/auth';
 
 // import { clearPage } from '../../utils/render';
 // import CommandsPage from "./CommandsPage";
@@ -52,17 +52,22 @@ const GamePage = async () => {
 
   // Set the skin to the current one
 
-  const username = getUserSessionData()?.username;
+  let scene = new GameScene();
 
-  async function getCurrentSkin(){
-    const response = await fetch(`/api/users/current-skin/${username}`)
-    const skin = await response.json();
-    return skin;
+  if (isLoggedIn()){
+    const username = getUserSessionData()?.username;
+
+    // eslint-disable-next-line no-inner-declarations
+    async function getCurrentSkin(){
+      const response = await fetch(`${process.env.API_BASE_URL}/users/current-skin/${username}`)
+      const skin = await response.json();
+      return skin;
+    }
+  
+    const skinID = await getCurrentSkin();
+
+    scene = new GameScene(skinID);
   }
-
-  const skinID = await getCurrentSkin();
-
-  const scene = new GameScene(skinID);
 
   window.addEventListener('popstate', () => {
     game.destroy();
@@ -97,7 +102,6 @@ const GamePage = async () => {
 
   function pauseGame(){
     game.pause();
-    console.log(game);
     game.sound.context.suspend();
   }
   
@@ -196,7 +200,10 @@ document.getElementById('gameOverExit')?.addEventListener('click', () => {
   
   document.addEventListener('keyup', (e) => {
     // eslint-disable-next-line no-underscore-dangle
-    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false) pauseModal.toggle();
+    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false) {
+      pauseModal.show();
+      pauseGame();
+    }
   })
   if (localStorage.getItem('disableRules') === 'true'){
     game.resume();

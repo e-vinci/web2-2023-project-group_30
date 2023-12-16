@@ -35,7 +35,9 @@ class GameScene extends Phaser.Scene {
     this.starDelayDecreaseRate = 10;
     this.gameOverFlag  = false;
     this.stars = undefined;
-    this.skin = `skin${skinID}`
+    this.skin = `skin${skinID}`;
+
+    if (!skinID) this.skin = 'skin0';
     // initialize score
     this.scoreLabel = undefined;
     this.score = 0;

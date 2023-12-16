@@ -69,7 +69,7 @@ const ShopPage = async () => {
     // Get balance
     let balance;
     async function getBalance(){
-      const response = await fetch(`/api/users/get-balance/${username}`);
+      const response = await fetch(`${process.env.API_BASE_URL}/users/get-balance/${username}`);
       balance = await response.json();
       return balance;
     }
@@ -80,7 +80,7 @@ const ShopPage = async () => {
 
     // GET ALL THE SKINS TABLE WITH PRICES 
     async function getSkins(){
-      const response = await fetch ('/api/users/get-skins')
+      const response = await fetch (`${process.env.API_BASE_URL}/users/get-skins`)
       const table =  await response.json();
       return table;    
     }
@@ -88,7 +88,7 @@ const ShopPage = async () => {
     console.log(skinsTable[0]);
 
     async function getCurrentSkin(){
-      const response = await fetch(`/api/users/current-skin/${username}`)
+      const response = await fetch(`${process.env.API_BASE_URL}/users/current-skin/${username}`)
       const skin = await response.json();
       return skin;
     }
@@ -97,7 +97,7 @@ const ShopPage = async () => {
       let skinData;
       let isUnlocked; 
       try {
-        const response = await fetch(`/api/users/check-skin/${username}/skin${skinID}`, {
+        const response = await fetch(`${process.env.API_BASE_URL}/users/check-skin/${username}/skin${skinID}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ const ShopPage = async () => {
 
     async function setCurrentSkin(skinID){
 
-      const response = await fetch('/api/users/change-current-skin', {
+      const response = await fetch(`${process.env.API_BASE_URL}/users/change-current-skin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ const ShopPage = async () => {
       let currentBalance;
 
       try { 
-        const response = await fetch ('/api/users/unlock-skin', {
+        const response = await fetch (`${process.env.API_BASE_URL}/users/unlock-skin`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
