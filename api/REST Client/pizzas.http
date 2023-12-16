@@ -1,5 +1,8 @@
 ######### NORMAL OPERATION  ###########
 
+######a modifier pour les requetes du classement et profil #######
+
+
 ### Read all pizzas
 GET http://localhost:3000/pizzas
 
@@ -15,6 +18,9 @@ GET {{baseUrl}}/pizzas/?order=-title
 
 ### Read pizza identified by 2
 GET {{baseUrl}}/pizzas/2
+
+###
+GET {{baseUrl}}/users
 
 ### Create a pizza by using the admin account
 #### First login as the admin

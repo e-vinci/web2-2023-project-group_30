@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
+*, nav{
+    overflow: hidden;
+    background-size: cover;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-weight: 600px;
+    color: white;
+    background-color: black;
+    background-size: cover; /* Adjust as needed */
+    background-repeat: no-repeat; /* Adjust as needed */
+}
+.navbar-brand, #navbarWrapper{
+    color: white;
+    background-color: transparent;
+
+}
+
+.navbar-brand{
+    font-size: 50px;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.714);
+}
+
+.navbar-brand:hover, .navbar-brand:focus {
+    color: white;
+}
+
+#title{
+    font-size: 50px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#menu{
+    background-color: rgba(92, 92, 92, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 60vh;
+    width: max-content;
+}
+
+.menuButtons, #gameOverRestart, #gameOverExit {
+    height: 50px;
+    margin: 7px;
+    width: 220px;
+    border-color: #2F5B02;
+    border-bottom: 7px solid #2F5B02;
+    border-right: 7px solid black;
+    background-color: green;
+}
+
+.menuButtons:active, .confButtons:active, #shopPurchaseBtn:active{
+    border: 2px solid black;
+}
+
+.menuButtons{
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    width: 260px;
+    font-size: 20px;
+    background-color: green;
+}
+
+#menu .menuButtons a {
+    text-decoration: none;
+    text-decoration-line: none;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition-duration: 0.5s;
+    background-color: green;
+  }
+
+.navbar-toggler-icon{
+    float: right;
+    font-size: 30px;
+}
+
+#gamePauseButton{
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    background: green;
+    font-size: x-large;
+    border-radius: 40px;
+    overflow: hidden;
+    border: 2px solid black;
+    margin-top: 5px;
+    z-index: 50;
+}
+
+#pauseMenu{
+    border: 3px solid black;
+}
+
+#pauseMenuCloseButton {
+    width: 40px;
+    height: 40px;
+    border-color:transparent;
+    font-size: x-large;
+    overflow: hidden;
+}
+
+.modal, .modal-fade, .modal-dialog{
+    background-color: transparent;
+}
+
+#confToRestartDiv, #confToExitDiv {
+    text-align: center;
+    width: 260px;
+}
+
+
+
+.confButtons{
+    border-color: #2F5B02;
+    border-bottom: 7px solid #2F5B02;
+    border-right: 7px solid black;
+    margin: 5px;
+    background-color: green;
+}
+
+#rulesAndCommandsDiv.modal, #rulesAndCommandsDiv.modal-fade, #rulesAndCommandsDiv.modal-dialog, 
+#pauseModal.modal, #pauseModal.modal-fade, #pauseModal.modal-dialog{
+    background-color: rgba(255, 255, 255, 0.296);
+}
+
+#commandsDiv{
+    background-color: #2F5B02;
+}
+
+#showCommands{
+    color: black;
+}
+
+#commandsText{
+    display: none;
+}
+
+::backdrop{
+    opacity: 0.75;
+}
+
+.game-page-container {
+    /* Other styles */
+  
+    /* Background image properties */
+     /* Replace 'path_to_your_image.jpg' with your image path */
+    background-size: cover; /* Adjust as needed */
+    background-repeat: no-repeat; /* Adjust as needed */
+  }
+ .table table-hover{
+    background-color:green;
+ }  
+ 
+
+#carouselShopItems{
+    height: 50vh;
+    width: 50rem;
+    margin-top: 75px;
+}
+.shopItemTitle{
+    color: white;
+}
+.shopItemImg{
+    height: 50px;
+    align-self: center;
+}
+.shopItemDesc{
+    align-self: flex-end;
+    justify-self: baseline;
+    position: absolute;
+    bottom: 30px;
+    text-align: center;
+}
+.shopItemContainer{
+    display: flex;
+}
+#shopPurchaseBtn{
+    background-color: grey;
+    margin: 10px;
+    width: 50%;
+    height: 50px;
+    border-color: grey;
+    border-bottom: 7px solid gainsboro;
+    border-right: 7px solid gainsboro;
+}
+
+#shopPage{
+    flex-direction: column;
+    align-items: center;
+}
+
+#gameOverScreen{
+    z-index: 2;
+    background-color: black;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+#GameOver{
+    font-size: 60px;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    justify-self: flex-start;
+    grid-column: 1 / 3;
+    align-self: center;
+    justify-self: center;
+}
+
+#gameover-points, #gameover-stars, #pointsDisplay, #starsDisplay{
+    font-size: 45px;
+    margin: 20px;
+}
+
+#gameover-points, #gameover-stars {
+    grid-column: 1 / 2;
+    justify-self: center;
+}
+
+#pointsDisplay, #starsDisplay {
+    justify-self: center;
+    grid-column: 2 / 2;
+}
+
+#gameOverRestart, #gameOverExit{
+    justify-self: center;
+}
+
+.rulesAndCommandsIcons{
+    background-color: grey;
+    border-radius: 3px;
+    left: 25%;
+    position: relative;
+}
+
+.rulesAndCommandsText{
+    position: relative;
+    right: 10%;
+    width: min-content;
+    background-color: transparent;
+    margin: 10px;
+    margin-top: 0px;
+}

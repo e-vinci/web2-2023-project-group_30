@@ -1,47 +1,82 @@
-// eslint-disable-next-line no-unused-vars
-import { Navbar as BootstrapNavbar } from 'bootstrap';
-
-/**
- * Render the Navbar which is styled by using Bootstrap
- * Each item in the Navbar is tightly coupled with the Router configuration :
- * - the URI associated to a page shall be given in the attribute "data-uri" of the Navbar
- * - the router will show the Page associated to this URI when the user click on a nav-link
- */
+import { isLoggedIn, setUserSessionData, logoutuser } from '../../utils/auth';
+import Navigate from '../Router/Navigate';
+import { reloadHomePage } from '../Pages/HomePage';
 
 const Navbar = () => {
   const navbarWrapper = document.querySelector('#navbarWrapper');
-  const navbar = `
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Add your brand here</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#" data-uri="/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" data-uri="/game">Game</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" data-uri="/new">New Page</a>
-              </li>                        
-            </ul>
-          </div>
-        </div>
-      </nav>
+
+  // Fonction pour générer le bouton de connexion/déconnexion
+  // Fonction pour générer le bouton de connexion/déconnexion
+function logButton() {
+  if (isLoggedIn()) {
+    return `
+    <a class="nav-link text-white fs-4" href="#" id="logout1">Se déconnecter</a>
+      <a class="nav-link text-white fs-4" href="#" id="profile" data-uri="/profile">Mon Profil</a>
+      `;
+  }
+  return `
+    <a class="nav-link text-white fs-4" href="#" data-uri="/login">Se connecter</a>
+    ${register()}
   `;
+}
+
+  
+
+  // Fonction pour générer le bouton d'inscription
+  function register() {
+    return !isLoggedIn() ? `<a class="nav-link text-white fs-4" href="#" data-uri="/register">S'inscrire</a>` : '';
+  }
+
+  // Fonction pour gérer la déconnexion
+  function logout() {
+    setUserSessionData(null);
+    logoutuser();
+    reloadNavbar();
+    reloadHomePage();
+    
+  }
+
+  // Fonction pour recharger dynamiquement la navbar
+  function reloadNavbar() {
+    Navbar();
+    attachEventListeners();
+  }
+  
+
+  // Fonction pour attacher les écouteurs d'événements
+  function attachEventListeners() {
+    document.querySelectorAll('[data-uri]').forEach(link => {
+      link.addEventListener('click', (event) => {
+        const uri = event.target.getAttribute('data-uri');
+        if (uri) Navigate(uri);
+      });
+    });
+
+    const logoutButton = document.querySelector('#logout1');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', logout);
+    }
+  }
+
+  // HTML de la navbar
+  const navbar = `
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#" data-uri="/">Zero-G Odyssey</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            ${logButton()}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  `;
+
   navbarWrapper.innerHTML = navbar;
+  attachEventListeners();
 };
 
 export default Navbar;

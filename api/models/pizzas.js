@@ -1,3 +1,5 @@
+// A modifier pour le classement et le profil
+
 const path = require('node:path');
 const escape = require('escape-html');
 const { parse, serialize } = require('../utils/json');
