@@ -5,7 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const corsOptions = {
-  origin: ['http://localhost:8080', 'https://e-vinci.github.io'],
+  origin: ['http://localhost:8080', 'https://e-vinci.github.io/web2-2023-project-group_30'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
