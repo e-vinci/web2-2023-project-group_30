@@ -9,28 +9,28 @@ const fetchPlayers = async () => {
 const LeaderboardPage = async () => {
   try {
     const players = await fetchPlayers();
-  
-
-    players.sort((a, b) => b.score - a.score); // Sort players by points
+    players.sort((a, b) => b.score - a.score);
 
     const main = document.querySelector('main');
     main.innerHTML = `
-      <div class="container">
+      <div class="container mt-5">
         <div class="row justify-content-center">
-          <div">
-            <h1 class="text-center">Classement</h1>
-            <table class="table table-hover">
+          <div class="col-lg-8 border-flash-green">
+            <h1 id="title" class="">Classement</h1>
+            <table class="table table-hover" style="background-color: transparent;">
               <thead>
                 <tr>
-                  <th class="bg-transparent text-white" scope="col" style="font-size:35px">Joueur</th>
-                  <th class="bg-transparent text-white" scope="col" style="font-size:35px">Score</th>
+                  <th class="text-white bg-transparent" scope="col">#</th>
+                  <th class="text-white bg-transparent" scope="col">Joueur</th>
+                  <th class="text-white bg-transparent" scope="col">Score</th>
                 </tr>
               </thead>
               <tbody>
-                ${players.slice(0, 10).map((player) => `
+                ${players.slice(0, 10).map((player, index) => `
                   <tr>
+                    <td class="text-white bg-transparent">${index + 1}</td>
                     <td class="text-white bg-transparent">${player.username}</td>
-                    <td class="text-white bg-transparent">${player.score}</td>
+                    <td class="text-white bg-transparent">${player.bestscore}</td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -41,8 +41,13 @@ const LeaderboardPage = async () => {
     `;
   } catch (error) {
     console.error('Error fetching or rendering leaderboard:', error);
-    // Handle the error appropriately (e.g., display a message to the user)
+    // Here, you can add error handling logic, like displaying a message to the user.
   }
 };
 
 export default LeaderboardPage;
+
+
+
+
+
