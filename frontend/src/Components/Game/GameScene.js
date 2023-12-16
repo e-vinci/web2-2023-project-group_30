@@ -3,18 +3,24 @@ import anime from 'animejs';
 import ScoreLabel from './ScoreLabel';
 import skyAsset from '../../assets/sky_tes.jpg';
 import asteroidAsset from '../../assets/asteroid.png';
-import dudeAsset from '../../assets/Ship3.png';
+import skin0 from '../../assets/Ship1.png';
+import skin1 from '../../assets/Ship2.png';
+import skin2 from '../../assets/Ship3.png';
+import skin3 from '../../assets/Ship4.png';
+import skin4 from '../../assets/Ship5.png';
+import skin5 from '../../assets/Ship6.png';
+import skin6 from '../../assets/Ship7.png';
+import skin7 from '../../assets/Ship8.png';
 import gameAudio from '../../assets/audio/gamemusic-6082.mp3';
 import gameOverAudio from '../../assets/audio/game-over-arcade-6435.mp3';
 import bulletAsset from '../../assets/bullets.png';
 import starAsset from '../../assets/star.png';
 import { getUserSessionData, isLoggedIn } from '../../utils/auth';
 
-const DUDE_KEY = 'dude';
 const BULLET_KEY = 'bullet';
 
 class GameScene extends Phaser.Scene {
-  constructor() {
+  constructor(skinID) {
     super('game-scene');
     this.player = undefined;
     this.cursors = undefined;
@@ -29,7 +35,7 @@ class GameScene extends Phaser.Scene {
     this.starDelayDecreaseRate = 10;
     this.gameOverFlag  = false;
     this.stars = undefined;
-
+    this.skin = `skin${skinID}`
     // initialize score
     this.scoreLabel = undefined;
     this.score = 0;
@@ -40,7 +46,14 @@ class GameScene extends Phaser.Scene {
   preload() {
     this.load.image('sky', skyAsset);
     this.load.image('obstacle', asteroidAsset);
-    this.load.image(DUDE_KEY, dudeAsset);
+    this.load.image('skin0', skin0);
+    this.load.image('skin1', skin1);
+    this.load.image('skin2', skin2);
+    this.load.image('skin3', skin3);
+    this.load.image('skin4', skin4);
+    this.load.image('skin5', skin5);
+    this.load.image('skin6', skin6);
+    this.load.image('skin7', skin7);
     this.load.audio('music', gameAudio);
     this.load.audio('gameOver', gameOverAudio);
     this.load.image(BULLET_KEY, bulletAsset);
@@ -50,9 +63,8 @@ class GameScene extends Phaser.Scene {
   create() {
     // background
     this.add.image(600, 400, 'sky'); // Center the background image
-
     // player
-    this.player = this.physics.add.sprite(80, 400, DUDE_KEY); // Adjust player starting position
+    this.player = this.physics.add.sprite(80, 400, this.skin); // Adjust player starting position
     this.player.setCollideWorldBounds(true);
     // Setting a smaller hitbox for the player sprite
     this.player.setSize(50, 12); 
@@ -163,6 +175,7 @@ class GameScene extends Phaser.Scene {
     const pointsDisplay = document.getElementById('pointsDisplay');
     pointsDisplay.innerHTML = `${this.scoreLabel.score}`;
     gameOverScreen.style.opacity = "1";
+    gameOverScreen.style.zIndex = "2";
     const starsDisplay = document.getElementById('starsDisplay');
     starsDisplay.innerHTML = `${this.starCount}  <img src=${starAsset}>`;
     

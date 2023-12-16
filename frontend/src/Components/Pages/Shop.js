@@ -13,8 +13,10 @@ import skin5 from '../../assets/Ship6.png';
 import skin6 from '../../assets/Ship7.png';
 import skin7 from '../../assets/Ship8.png';
 import star from '../../assets/star.png';
+import { clearPage } from '../../utils/render';
 
 const ShopPage = async () => {
+    clearPage();
     const main = document.querySelector('main');
     main.innerHTML = `
       <div id="balanceDisplay"></div>
@@ -134,28 +136,39 @@ const ShopPage = async () => {
     };
 
 
-    async function purchaseSkin(skinID){
+    async function purchaseSkin(skinID, skinPrice){
       const initialBalance = await getBalance(); 
       const container = document.getElementById(`${skinID}`);
       const status = container.querySelector('.shopItemTitle');
       let currentBalance;
-      const response = await fetch ('/api/users/unlock-skin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token
-        },
-        body: JSON.stringify({
-          "skinName": `skin${skinID}`
-        })
-      }).then( async () => {
-        currentBalance = await getBalance();
-        balanceAnimation(initialBalance, currentBalance);
-      })
-      .catch(console.error("Error in the purchase of the skin"));
-      button.innerText = 'Equiper';
-      status.innerHTML = 'Acquis &#x2713;'
 
+      try { 
+        const response = await fetch ('/api/users/unlock-skin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token
+          },
+          body: JSON.stringify({
+            "skinName": `skin${skinID}`
+          })
+        })
+        if (response.ok && parseInt(skinPrice, 10) <= initialBalance){
+          button.innerText = 'Equiper';
+          status.innerHTML = 'Acquis &#x2713;'
+          currentBalance = await getBalance();
+          balanceAnimation(initialBalance, currentBalance);
+        } else {
+          alert('Erreur lors de l\'achat');
+        }
+        console.log(skinPrice, skinPrice <= initialBalance);
+      } catch {
+        (console.error("Error in the purchase of the skin"))
+      };
+      
+      // if (response.ok){
+
+      // }
     }
 
     function balanceAnimation(initialBalance, currentBalance){
@@ -288,8 +301,9 @@ const ShopPage = async () => {
     })
 
     button.addEventListener('click', async () => {
-      const index = parseInt(carouselShopItems._activeElement.id, 10);
-
+      let index = parseInt(carouselShopItems._activeElement?.id, 10);
+      // eslint-disable-next-line no-restricted-globals
+      if (isNaN(index)) index = 0;
       const isUnlocked = await getSkinStatus(index);
       console.log(isUnlocked)
       if (isUnlocked){
@@ -297,7 +311,7 @@ const ShopPage = async () => {
         currentSkin = newCurrentSkin;
         return;
       } if (isUnlocked === false){
-        await purchaseSkin(index);
+        await purchaseSkin(index, skinsTable[0][`skin${index}`]);
         return;
       } alert("Erreur lors de l'achat");
     });

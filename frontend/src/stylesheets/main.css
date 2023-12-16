@@ -192,11 +192,11 @@
 }
 
 #gameOverScreen{
-    z-index: 2;
+    z-index: -1;
     background-color: black;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
@@ -242,7 +242,7 @@
 
 .rulesAndCommandsText{
     position: relative;
-    right: 10%;
+    right: 12%;
     width: min-content;
     background-color: transparent;
     margin: 10px;

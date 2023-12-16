@@ -11,5 +11,20 @@ const GameOver = `
     <button id="gameOverExit">Quitter</button>
 </div>
 `
+const gameOverRestart = document.getElementById('gameOverRestart'); 
+const gameOverExit = document.getElementById('gameOverExit');
+
+gameOverRestart?.addEventListener('click', () => {
+    deactivateButtons();
+})
+
+gameOverExit?.addEventListener('click', () => {
+    deactivateButtons();
+})
+
+function deactivateButtons() {
+    gameOverRestart.style.pointerEvents = 'none';
+    gameOverExit.style.pointerEvents = 'none'
+}
 
 export default GameOver;
