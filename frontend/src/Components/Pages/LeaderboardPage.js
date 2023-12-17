@@ -29,7 +29,7 @@ const LeaderboardPage = async () => {
                   <tr>
                     <td class="text-white bg-transparent">${index + 1}</td>
                     <td class="text-white bg-transparent">${player.username}</td>
-                    <td class="text-white bg-transparent">${player.bestscore}</td>
+                    <td class="text-white bg-transparent">${player.bestscore !== undefined ? player.bestscore : 0}</td>
                   </tr>
                 `).join('')}
               </tbody>
