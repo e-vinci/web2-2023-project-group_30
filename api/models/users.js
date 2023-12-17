@@ -14,10 +14,10 @@ const skinsDb = path.join(__dirname, '/../data/skins.json');
 const defaultUsers = [
   {
     id: 1,
-    username: 'admin',
-    password: bcrypt.hashSync('admin', saltRounds),
+    username: 'user1',
+    password: bcrypt.hashSync('ueser1', saltRounds),
     birthdate: '1990-01-01',
-    score: 0,
+    bestscore: 0,
     skin1: false,
     skin2: false,
     skin3: false,

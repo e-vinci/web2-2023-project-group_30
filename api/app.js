@@ -13,10 +13,10 @@ const authsRouter = require('./routes/auths');
 
 const app = express();
 
-// Configuration de Swagger
+// Swagger configuration
 const swaggerOptions = {
   swaggerDefinition: {
-    openapi: '3.0.0', // Version de l'OpenAPI
+    openapi: '3.0.0',
     info: {
       title: 'Mon API',
       version: '1.0.0',
@@ -28,7 +28,7 @@ const swaggerOptions = {
       { url: 'https://kevish-gawri-vinci.github.io' },
     ],
   },
-  apis: ['./routes/*.js'], // Chemin vers les fichiers de routes pour la documentation
+  apis: ['./routes/*.js'],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
@@ -48,7 +48,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Utilisation de Swagger UI
+// Use of swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/users', usersRouter);

@@ -49,7 +49,6 @@ router.post('/register', async (req, res) => {
 
   return res.json(authenticatedUser);
 });
-// aaa
 /* Login a user */
 /**
  * @swagger
