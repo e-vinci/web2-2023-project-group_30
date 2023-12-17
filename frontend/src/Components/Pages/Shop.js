@@ -115,7 +115,7 @@ const ShopPage = async () => {
     async function setCurrentSkin(skinID){
 
       const response = await fetch(`${process.env.API_BASE_URL}/users/change-current-skin`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: token
@@ -144,7 +144,7 @@ const ShopPage = async () => {
 
       try { 
         const response = await fetch (`${process.env.API_BASE_URL}/users/unlock-skin`, {
-          method: 'POST',
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
             Authorization: token

@@ -20,7 +20,7 @@ GET {{baseUrl}}/current-skin/{{username}}
 GET {{baseUrl}}/get-balance/{{username}}
 
 ### Update Score of a User
-POST {{baseUrl}}/update-score
+PATCH {{baseUrl}}/update-score
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlhdCI6MTcwMjc2ODU1NywiZXhwIjoxNzg5MTY4NTU3fQ.LpBGhfd1rYNGIH7UpqOdWjtMzmO41MZD4bLsZ2qFmiM
 Content-Type: application/json
 
@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ### Add Stars to a User
-POST {{baseUrl}}/add-stars
+PATCH {{baseUrl}}/add-stars
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlhdCI6MTcwMjc2ODU1NywiZXhwIjoxNzg5MTY4NTU3fQ.LpBGhfd1rYNGIH7UpqOdWjtMzmO41MZD4bLsZ2qFmiM
 Content-Type: application/json
 
@@ -41,7 +41,7 @@ Content-Type: application/json
 GET {{baseUrl}}/classement
 
 ### Unlock a Skin for a User
-POST {{baseUrl}}/unlock-skin
+PATCH {{baseUrl}}/unlock-skin
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlhdCI6MTcwMjc2ODU1NywiZXhwIjoxNzg5MTY4NTU3fQ.LpBGhfd1rYNGIH7UpqOdWjtMzmO41MZD4bLsZ2qFmiM
 Content-Type: application/json
 
@@ -55,7 +55,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlh
 
 
 ### Change Current Skin of a User
-POST {{baseUrl}}/change-current-skin
+PATCH {{baseUrl}}/change-current-skin
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlhdCI6MTcwMjc2ODU1NywiZXhwIjoxNzg5MTY4NTU3fQ.LpBGhfd1rYNGIH7UpqOdWjtMzmO41MZD4bLsZ2qFmiM
 Content-Type: application/json
 
