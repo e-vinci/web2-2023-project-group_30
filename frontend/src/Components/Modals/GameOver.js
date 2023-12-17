@@ -1,7 +1,7 @@
 
 
 const GameOver = `
-<div id="gameOverScreen" style="position: absolute; width: 1200px; height: 700px;" class="hidden">
+<div id="gameOverScreen" style="position: absolute;" class="hidden">
     <h2 class="gameOverText" id="GameOver">Game Over</h2>
     <h5 id="gameover-points" class="gameOverText">Points : </h5>
         <span id="pointsDisplay" class="gameOverText"></span>

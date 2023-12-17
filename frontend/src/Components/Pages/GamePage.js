@@ -100,6 +100,14 @@ const GamePage = async () => {
     game.resume();
   })
 
+  // Responsive gameover screen 
+  const gameOverScreen = document.getElementById('gameOverScreen');
+  if (mainWidth < 1200){
+    const heightToSet = (mainWidth/1200)*700;
+    gameOverScreen.style.width = `${mainWidth}px`
+    gameOverScreen.style.height = `${heightToSet}px`;
+  }
+
   function pauseGame(){
     game.pause();
     game.sound.context.suspend();

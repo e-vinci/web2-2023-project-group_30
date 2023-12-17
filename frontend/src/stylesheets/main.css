@@ -15,19 +15,42 @@
 
 }
 
+
 .navbar-brand{
     font-size: 50px;
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.714);
+}
+#title{
+    font-size: 50px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 500px){
+    .navbar-brand{
+        font-size: 35px;
+    }
+}
+
+@media (max-width: 375px){
+    .navbar-brand{
+        font-size: 28px;
+    }
+    #title{
+        font-size: 38px;
+    }
+}
+.navbar-toggler-icon, .navbar-toggler{
+    background-color: green;
+}
+.navbar-nav{
+    align-items: flex-end;
 }
 
 .navbar-brand:hover, .navbar-brand:focus {
     color: white;
 }
 
-#title{
-    font-size: 50px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
+
 
 #menu{
     background-color: rgba(92, 92, 92, 0);
@@ -202,6 +225,7 @@
     align-items: center;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+    width: 1200px; height: 700px;
 }
 
 #GameOver{
@@ -217,6 +241,23 @@
 #gameover-points, #gameover-stars, #pointsDisplay, #starsDisplay{
     font-size: 45px;
     margin: 20px;
+}
+@media (max-width: 500px){
+    #gameOverScreen{
+        display: grid;
+        align-items: center;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    }
+    #gameover-points, #gameover-stars, #pointsDisplay, #starsDisplay{
+        font-size: small;
+    }
+    #GameOver{
+        font-size: xx-large;
+    }
+    #gameOverRestart, #gameOverExit {
+        width: 150px;
+    }
 }
 
 #gameover-points, #gameover-stars {
