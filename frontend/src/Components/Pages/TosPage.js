@@ -27,7 +27,7 @@ const TermsOfServicePage = () => {
                         <p>Nous ne partagerons pas tes données personnelles avec des tiers, sauf si requis par la loi.</p>
                         
                         <h3>5. Droit de Retrait et de Modification</h3>
-                        <p>Tu as le droit de retirer ton consentement à tout moment. Tu peux également demander à accéder à tes données personnelles, les rectifier ou les supprimer. Pour exercer ces droits, contacte-nous à [adresse e-mail de contact].</p>
+                        <p>Tu as le droit de retirer ton consentement à tout moment. Tu peux également demander à accéder à tes données personnelles, les rectifier ou les supprimer. Pour exercer ces droits, contacte-nous à kevish.gawri@student.vinci.be.</p>
                         
                         <h3>6. Sécurité des Données</h3>
                         <p>Nous nous engageons à protéger la sécurité de tes données personnelles. Nous utilisons des mesures de sécurité techniques et organisationnelles appropriées pour empêcher l'accès non autorisé, la divulgation, la modification ou la destruction non autorisée de tes données.</p>
