@@ -215,7 +215,7 @@ class GameScene extends Phaser.Scene {
     const token = getUserSessionData()?.token;
     try {
       const response = await fetch(`${process.env.API_BASE_URL}/users/update-score`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `${token}`
@@ -251,7 +251,7 @@ class GameScene extends Phaser.Scene {
 
     try {
       const response = await fetch(`${process.env.API_BASE_URL}/users/add-stars`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `${token}`
