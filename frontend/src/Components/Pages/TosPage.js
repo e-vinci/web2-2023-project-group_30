@@ -8,7 +8,7 @@ const TermsOfServicePage = () => {
                     <h1 class="text-center">Termes et Conditions d'Utilisation</h1>
                     <div class="terms-content">
                         <h2>Conditions d'Utilisation et Politique de Confidentialité</h2>
-                        <p>Bienvenue dans Zero-G Odyssey! Avant de commencer à jouer, nous avons besoin de quelques informations et de ton consentement pour les utiliser conformément à la législation sur la protection des données.</p>
+                        <p>Bienvenue dans [Nom du Jeu]! Avant de commencer à jouer, nous avons besoin de quelques informations et de ton consentement pour les utiliser conformément à la législation sur la protection des données.</p>
                         
                         <h3>1. Collecte de Données Personnelles</h3>
                         <p>Pour créer ton compte, nous te demandons de fournir un pseudo, une date de naissance, et de créer un mot de passe. Ton mot de passe sera sécurisé et hashé dans nos bases de données. Le pseudo sera utilisé uniquement pour afficher ton classement dans le jeu.</p>

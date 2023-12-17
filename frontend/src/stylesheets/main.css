@@ -296,5 +296,9 @@
     text-align: center;
   }
   
+  .terms-page {
+    overflow: auto; /* Permet le défilement sur cette page */
+    height: 90vh; /* Ajuste la hauteur si nécessaire */
+}
   
   
