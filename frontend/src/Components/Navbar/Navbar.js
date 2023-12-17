@@ -5,8 +5,7 @@ import { reloadHomePage } from '../Pages/HomePage';
 const Navbar = () => {
   const navbarWrapper = document.querySelector('#navbarWrapper');
 
-  // Fonction pour générer le bouton de connexion/déconnexion
-  // Fonction pour générer le bouton de connexion/déconnexion
+  // Function make the log button dynamic
 function logButton() {
   if (isLoggedIn()) {
     return `
@@ -22,12 +21,12 @@ function logButton() {
 
   
 
-  // Fonction pour générer le bouton d'inscription
+  // Function to make the register button dynamic
   function register() {
     return !isLoggedIn() ? `<a class="nav-link text-white fs-4" href="#" data-uri="/register">S'inscrire</a>` : '';
   }
 
-  // Fonction pour gérer la déconnexion
+  // Function to logout
   function logout() {
     setUserSessionData(null);
     logoutuser();
@@ -36,14 +35,14 @@ function logButton() {
     
   }
 
-  // Fonction pour recharger dynamiquement la navbar
+  // Function to reload the navbar
   function reloadNavbar() {
     Navbar();
     attachEventListeners();
   }
   
 
-  // Fonction pour attacher les écouteurs d'événements
+  // Function to attach event listeners
   function attachEventListeners() {
     document.querySelectorAll('[data-uri]').forEach(link => {
       link.addEventListener('click', (event) => {
@@ -58,7 +57,7 @@ function logButton() {
     }
   }
 
-  // HTML de la navbar
+  // Html code for the navbar
   const navbar = `
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">

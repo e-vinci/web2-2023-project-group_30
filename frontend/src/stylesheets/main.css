@@ -6,8 +6,8 @@
     font-weight: 600px;
     color: white;
     background-color: black;
-    background-size: cover; /* Adjust as needed */
-    background-repeat: no-repeat; /* Adjust as needed */
+    background-size: cover; 
+    background-repeat: no-repeat; 
 }
 .navbar-brand, #navbarWrapper{
     color: white;
@@ -142,12 +142,8 @@
 }
 
 .game-page-container {
-    /* Other styles */
-  
-    /* Background image properties */
-     /* Replace 'path_to_your_image.jpg' with your image path */
-    background-size: cover; /* Adjust as needed */
-    background-repeat: no-repeat; /* Adjust as needed */
+    background-size: cover; 
+    background-repeat: no-repeat; 
   }
  .table table-hover{
     background-color:green;
@@ -263,8 +259,8 @@
 }
 
 .profile-container {
-    background-color: rgba(0, 0, 0, 0.8); /* fond semi-transparent noir */
-    border: 3px solid green; /* bordure verte */
+    background-color: rgba(0, 0, 0, 0.8); 
+    border: 3px solid green; 
     padding: 20px;
     border-radius: 15px;
     margin-top: 20px;
@@ -287,7 +283,7 @@
     height: 3px;
     background-color: green;
     width: 50%;
-    margin: 0 auto; /* Centre la barre */
+    margin: 0 auto; 
     margin-top: 5px;
   }
   
@@ -297,8 +293,8 @@
   }
   
   .terms-page {
-    overflow: auto; /* Permet le défilement sur cette page */
-    height: 90vh; /* Ajuste la hauteur si nécessaire */
+    overflow: auto; 
+    height: 90vh; 
 }
   
   

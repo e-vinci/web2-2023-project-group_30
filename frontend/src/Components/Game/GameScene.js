@@ -200,17 +200,7 @@ class GameScene extends Phaser.Scene {
     return;
   }
 
-  // // Parser l'objet User pour obtenir le token JWT
-  // const parsedUserObject = JSON.parse(userObject);
-  // const {token} = parsedUserObject.token;
-
-  // if (!token) {
-  //   console.error('Token JWT non trouvé, score non enregistré');
-  //   return;
-
-  // }
-
-  // Envoyer le score au serveur avec le token JWT
+  // Send score to the API
   if (isLoggedIn()){
     const token = getUserSessionData()?.token;
     try {
