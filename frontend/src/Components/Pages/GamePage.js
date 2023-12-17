@@ -59,8 +59,14 @@ const GamePage = async () => {
 
     // eslint-disable-next-line no-inner-declarations
     async function getCurrentSkin(){
-      const response = await fetch(`${process.env.API_BASE_URL}/users/current-skin/${username}`)
-      const skin = await response.json();
+      const response = await fetch(`${process.env.API_BASE_URL}/users/current-skin/${username}`);
+      let skin;
+      if (!response.ok) {
+        alert("Erreur: votre skin sera par défaut")
+        skin = 0;
+        return skin;
+      }
+      skin = await response.json();
       return skin;
     }
   
@@ -95,12 +101,24 @@ const GamePage = async () => {
   // there could be issues when a game was quit (events no longer working)
   // therefore destroy any started game prior to recreate it
 
+  let isGamePausable = false;
+
   const closeRulesButton = document.getElementById('closeRulesButton');
   closeRulesButton.addEventListener('click', () => {
     game.resume();
+    isGamePausable = true;
   })
 
+  // Responsive gameover screen 
+  const gameOverScreen = document.getElementById('gameOverScreen');
+  if (mainWidth < 1200){
+    const heightToSet = (mainWidth/1200)*700;
+    gameOverScreen.style.width = `${mainWidth}px`
+    gameOverScreen.style.height = `${heightToSet}px`;
+  }
+
   function pauseGame(){
+    isGamePausable = false;
     game.pause();
     game.sound.context.suspend();
   }
@@ -151,7 +169,7 @@ const GamePage = async () => {
   // Pause the game upon click of pause button
 
   pauseButton.addEventListener('click', () => {
-    pauseGame();
+    if (isGamePausable) pauseGame();
   })
 
   // Resume, upon click of reprendre, and closing of modal
@@ -160,11 +178,13 @@ const GamePage = async () => {
   const closeMenuButton = document.getElementById("pauseMenuCloseButton");
 
   continueButton.addEventListener('click', () => {
-    game.resume();
+      game.resume();
+      isGamePausable = true;
   });
 
   closeMenuButton.addEventListener('click', () => {
     game.resume();
+    isGamePausable = true;
   });
 
   // eslint-disable-next-line no-unused-vars
@@ -200,13 +220,14 @@ document.getElementById('gameOverExit')?.addEventListener('click', () => {
   
   document.addEventListener('keyup', (e) => {
     // eslint-disable-next-line no-underscore-dangle
-    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false) {
+    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false && !pauseModal._isShown) {
       pauseModal.show();
       pauseGame();
     }
   })
   if (localStorage.getItem('disableRules') === 'true'){
     game.resume();
+    isGamePausable = true;
   } else {
     rulesAndCommandsDiv.show();
   }

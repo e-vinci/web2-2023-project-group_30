@@ -1,7 +1,7 @@
 import { getUserSessionData } from '../../utils/auth';
 
 const fetchPlayers = async () => {
-  const response = await fetch('/api/users/');
+  const response = await fetch(`${process.env.API_BASE_URL}/users/`);
   const players = await response.json();
   return players;
 };

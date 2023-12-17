@@ -268,7 +268,6 @@ const ShopPage = async () => {
 
     carouselShopItems = new Carousel(document.getElementById('carouselShopItems'), {
       keyboard: false,
-      touch: false
     });
     
         
