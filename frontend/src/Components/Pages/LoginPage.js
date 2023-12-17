@@ -57,14 +57,13 @@ const LoginPage = () => {
   });
   
 
-  // Fonction pour recharger dynamiquement la barre de navigation
+  // Function to reload the navbar
   function reloadNavbar() {
     const navbarWrapper = document.querySelector('#navbarWrapper');
     navbarWrapper.innerHTML = '';
-    Navbar(); // Appel à la fonction Navbar pour regénérer la barre de navigation mise à jour
+    Navbar(); 
   }
 
-  // Appel à la fonction Navbar après avoir défini le formulaire pour éviter les problèmes de rendu
   Navbar();
 };
 

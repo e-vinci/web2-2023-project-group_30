@@ -12,8 +12,7 @@ const ProfilePage = async () => {
     const players = await fetchPlayers();
     const currentUser = getUserSessionData().username;
     const userData = players.find(player => player.username === currentUser);
-    const { username, birthdate, bestscore, stars } = userData; // Assurez-vous d'avoir la propriété 'stars' dans vos données utilisateur
-
+    const { username, birthdate, bestscore, stars } = userData; 
     const profileHTML = `
       <div class="container">
         <div class="row justify-content-center">

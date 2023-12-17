@@ -1,4 +1,4 @@
-import Navigate from "../Router/Navigate";
+import Navigate from '../Router/Navigate';
 
 const RegisterPage = () => {
   const main = document.querySelector('main');
@@ -29,35 +29,51 @@ const RegisterPage = () => {
                           <input type="password" class="form-control" id="confirm" name="confirm" required>
                           <div class="invalid-feedback">Ce champ est requis.</div>
                       </div>
+                      <div class="mb-3 form-check">
+                       <input type="checkbox" class="form-check-input" id="termsCheckbox">
+                     <label class="form-check-label" for="termsCheckbox">J'accepte les <span id="termsLink" style="color:blue; cursor:pointer;">termes et conditions d'utilisation</span></label>
+                    </div>
                       <button type="submit" class="btn btn-success">S'inscrire</button>
                   </form>
               </div>
           </div>
       </div>
   `;
-  
-const registerForm = document.getElementById('registerForm');
+
+  const registerForm = document.getElementById('registerForm');
+
+  document.getElementById('termsLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    Navigate('/tos');
+});
 
 
-registerForm.addEventListener('submit', async (event) => {
+  registerForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const username = document.getElementById('username').value;
     const birthdate = document.getElementById('birthdate').value;
     const password = document.getElementById('password').value;
     const confirm = document.getElementById('confirm').value;
+    const isTermsChecked = document.getElementById('termsCheckbox').checked;
 
-    // Vérification de la conformité du mot de passe
-    if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
-        alert('Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.');
-        return;
+    // Check if the terms and conditions have been accepted
+    if (!isTermsChecked) {
+      alert("Veuillez accepter les termes et conditions d'utilisation pour continuer.");
+      return;
     }
 
-    // Vérification de la date de naissance
+    // Check if password is valid
+    if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
+      alert('Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.');
+      return;
+    }
+
+    // Check if birthdate is valid
     const year = birthdate.split('-')[0];
     if (year < 1900 || year > 2023) {
-        alert('L\'année de naissance doit être comprise entre 1900 et 2023.');
-        return;
+      alert("L'année de naissance doit être comprise entre 1900 et 2023.");
+      return;
     }
 
     if (password !== confirm) {
