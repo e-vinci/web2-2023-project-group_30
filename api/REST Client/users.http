@@ -21,7 +21,7 @@ GET {{baseUrl}}/get-balance/{{username}}
 
 ### Update Score of a User
 PATCH {{baseUrl}}/update-score
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlhdCI6MTcwMjc2ODU1NywiZXhwIjoxNzg5MTY4NTU3fQ.LpBGhfd1rYNGIH7UpqOdWjtMzmO41MZD4bLsZ2qFmiM
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1heCIsImlhdCI6MTcwMjgyODgyMywiZXhwIjoxNzg5MjI4ODIzfQ.gB6rxyC_a4ubeUNIJTYCnFCpXY-QrIlixMb0Dbog_Ps
 Content-Type: application/json
 
 {
