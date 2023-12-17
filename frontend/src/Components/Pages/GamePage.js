@@ -59,8 +59,14 @@ const GamePage = async () => {
 
     // eslint-disable-next-line no-inner-declarations
     async function getCurrentSkin(){
-      const response = await fetch(`${process.env.API_BASE_URL}/users/current-skin/${username}`)
-      const skin = await response.json();
+      const response = await fetch(`${process.env.API_BASE_URL}/users/current-skin/${username}`);
+      let skin;
+      if (!response.ok) {
+        alert("Erreur: votre skin sera par défaut")
+        skin = 0;
+        return skin;
+      }
+      skin = await response.json();
       return skin;
     }
   
@@ -214,9 +220,7 @@ document.getElementById('gameOverExit')?.addEventListener('click', () => {
   
   document.addEventListener('keyup', (e) => {
     // eslint-disable-next-line no-underscore-dangle
-    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false && isGamePausable) {
-      // eslint-disable-next-line no-underscore-dangle
-      console.log("dezaigdfze ", isGamePausable, rulesAndCommandsDiv._isShown)
+    if(e.key === 'Escape' && rulesAndCommandsDiv._isShown === false && !pauseModal._isShown) {
       pauseModal.show();
       pauseGame();
     }

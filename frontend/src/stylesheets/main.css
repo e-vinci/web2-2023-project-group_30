@@ -238,6 +238,15 @@
     justify-self: center;
 }
 
+.highScore{
+    background-image: linear-gradient(45deg, #ff3366, #ffcc33, #66ff66);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold; 
+    text-decoration: underline;
+}
+
 #gameover-points, #gameover-stars, #pointsDisplay, #starsDisplay{
     font-size: 45px;
     margin: 20px;
